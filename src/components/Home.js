@@ -9,14 +9,14 @@ class Home extends React.Component {
     this.state = {
       name: '',
       email: '',
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event, field) {
     this.setState({
-      [field]: event.target.value
+      [field]: event.target.value,
     });
   }
 
@@ -45,14 +45,20 @@ class Home extends React.Component {
           placeholder="name"
         />
         {
-          this.state.name === '' || this.state.email === '' ?
-            <button disabled data-testid="btn-play" type="button">Jogar</button>
-            : <Link
-              onClick={this.fetchToken()}
-              data-testid="btn-play"
-              type="button" to='/play'>Jogar</Link>
+          this.state.name === '' || this.state.email === ''
+            ? <button disabled data-testid="btn-play" type="button">Jogar</button>
+            : (
+              <Link
+                onClick={this.fetchToken()}
+                data-testid="btn-play"
+                type="button"
+                to="/play"
+              >
+                Jogar
+              </Link>
+            )
         }
-        <Link type="button" data-testid="btn-settings" to='/settings'>Settings</Link>
+        <Link type="button" data-testid="btn-settings" to="/settings">Settings</Link>
       </div>
     );
   }

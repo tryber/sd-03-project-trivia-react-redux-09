@@ -1,16 +1,23 @@
 import React from 'react';
+import Home from './components/Home';
+import Play from './components/Play';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import logo from './trivia.png';
 import './App.css';
 
 export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <Router>
+      <div className="App">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           SUA VEZ
         </p>
-      </header>
-    </div>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/play' component={Play} />
+        </Switch>
+      </div>
+    </Router>
   );
 }

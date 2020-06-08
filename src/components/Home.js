@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { tokenApi } from '../service/fetchs';
+import tokenApi from '../service/fetchs';
 
-fetchToken() {
+function fetchToken() {
   tokenApi()
     .then(({ token }) => {
       localStorage.setItem('token', token);
@@ -48,7 +48,7 @@ class Home extends React.Component {
           this.state.name === '' || this.state.email === ''
             ? <button disabled data-testid="btn-play" type="button">Jogar</button>
             : (
-              <Link onClick={this.fetchToken()} data-testid="btn-play" type="button" to="/play">
+              <Link onClick={fetchToken()} data-testid="btn-play" type="button" to="/play">
                 Jogar
               </Link>
             )

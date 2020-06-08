@@ -1,16 +1,16 @@
 import React from 'react';
-import logo from './trivia.png';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
+
+fetchToken(){
+  fetch('https://opentdb.com/api_token.php?command=request')
+  .then(resp => console.log(resp))
+}
 
 export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          SUA VEZ
-        </p>
-      </header>
+      <button onClick={fetchToken()}>Fetch</button>
     </div>
   );
 }

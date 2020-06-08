@@ -2,6 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { tokenApi } from '../service/fetchs';
 
+fetchToken() {
+  tokenApi()
+    .then(({ token }) => {
+      localStorage.setItem('token', token);
+    });
+}
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -18,13 +25,6 @@ class Home extends React.Component {
     this.setState({
       [field]: event.target.value,
     });
-  }
-
-  fetchToken() {
-    tokenApi()
-      .then(({ token }) => {
-        localStorage.setItem('token', token);
-      });
   }
 
   render() {
@@ -48,12 +48,7 @@ class Home extends React.Component {
           this.state.name === '' || this.state.email === ''
             ? <button disabled data-testid="btn-play" type="button">Jogar</button>
             : (
-              <Link
-                onClick={this.fetchToken()}
-                data-testid="btn-play"
-                type="button"
-                to="/play"
-              >
+              <Link onClick={this.fetchToken()} data-testid="btn-play" type="button" to="/play">
                 Jogar
               </Link>
             )

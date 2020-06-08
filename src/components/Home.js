@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import tokenRequest from '../service/tokenRequest';
+import { tokenApi } from '../service/fetchs';
 
 class Home extends React.Component {
   constructor(props) {
@@ -21,10 +21,9 @@ class Home extends React.Component {
   }
 
   fetchToken() {
-    tokenRequest()
+    tokenApi()
       .then(({ token }) => {
         localStorage.setItem('token', token);
-        console.log(token);
       });
   }
 
@@ -53,7 +52,7 @@ class Home extends React.Component {
               data-testid="btn-play"
               type="button" to='/play'>Jogar</Link>
         }
-        <button type="button" data-testid="btn-settings" >Settings</button>
+        <Link type="button" data-testid="btn-settings" to='/settings'>Settings</Link>
       </div>
     );
   }

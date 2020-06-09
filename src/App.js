@@ -9,10 +9,6 @@ export default function App() {
   return (
     <Router>
       <div className="App">
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          SUA VEZ
-        </p> */}
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/play" component={Play} />

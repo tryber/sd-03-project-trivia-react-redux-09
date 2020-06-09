@@ -1,13 +1,8 @@
 import React from 'react';
+import { connect } from 'redux';
 import { Link } from 'react-router-dom';
-import tokenApi from '../service/fetchs';
-
-function fetchToken() {
-  tokenApi()
-    .then(({ token }) => {
-      localStorage.setItem('token', token);
-    });
-}
+import tokenApi from '../service/fetchToken';
+import { getTokenAction, getQuestionsAction } from '../redux/actions/index';
 
 class Home extends React.Component {
   constructor(props) {
@@ -19,6 +14,15 @@ class Home extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  startGame() {
+    this.fetchToken();
+    /* .then(token => ) */
+    /*  tokenApi()
+      .then(({ token }) => {
+        localStorage.setItem('token', token);
+      }); */
   }
 
   handleChange(event, field) {
@@ -49,7 +53,7 @@ class Home extends React.Component {
           name === '' || email === ''
             ? <button disabled data-testid="btn-play" type="button">Jogar</button>
             : (
-              <Link onClick={fetchToken()} data-testid="btn-play" type="button" to="/play">
+              <Link onClick={this.startGame()} data-testid="btn-play" type="button" to="/play">
                 Jogar
               </Link>
             )
@@ -60,4 +64,16 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    token: state.token,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchToken: () => dispatch(getTokenAction()),
+  fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

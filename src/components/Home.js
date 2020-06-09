@@ -33,7 +33,7 @@ class Home extends React.Component {
       <div>
         <section>
           <form className="loginbox">
-          <h2>Trivia</h2>
+            <h2>Trivia</h2>
             <input
               data-testid="input-gravatar-email"
               className="input-login"
@@ -53,7 +53,7 @@ class Home extends React.Component {
             {
               this.state.name === '' || this.state.email === ''
                 ? <button disabled className="button-disabled" data-testid="btn-play" type="button">Jogar</button>
-                : ( 
+                : (
                     <Link onClick={fetchToken()} data-testid="btn-play" type="button" className="link-play" to="/play">
                       <button className="button-login">Jogar</button>
                     </Link>

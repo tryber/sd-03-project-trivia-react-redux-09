@@ -1,5 +1,5 @@
 body {
-  background: #44C4E7;
+  background: #44c4e7;
   font-family: "Roboto";
 }
 
@@ -35,7 +35,7 @@ h2 {
 }
 
 .button-login {
-  background: #44C4E7;
+  background: #44c4e7;
   border: 0;
   color: white;
   cursor: pointer;
@@ -44,22 +44,22 @@ h2 {
 }
 
 .button-login:hover {
-  background-color: #369CB8;
+  background-color: #369cb8;
 }
 
 .link-play {
   color: white;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 14px;
   font-weight: 400;
   text-decoration: none;
 }
 
 .button-disabled {
-  background: #44C4E7;
+  background: #44c4e7;
   border: 0;
   color: white;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 14px;
   font-weight: 400;
   padding: 10px 15px;
@@ -67,6 +67,6 @@ h2 {
 }
 
 .button-settings {
-  color: #44C4E7;
+  color: #44c4e7;
   font-size: 13px;
 }

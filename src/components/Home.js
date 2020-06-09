@@ -1,13 +1,8 @@
 import React from 'react';
+import { connect } from 'redux';
 import { Link } from 'react-router-dom';
-import tokenApi from '../service/fetchs';
-
-function fetchToken() {
-  tokenApi()
-    .then(({ token }) => {
-      localStorage.setItem('token', token);
-    });
-}
+import tokenApi from '../service/fetchToken';
+import { getTokenAction, getQuestionsAction } from '../redux/actions/index';
 
 class Home extends React.Component {
   constructor(props) {
@@ -21,6 +16,14 @@ class Home extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  startGame() {
+    tokenApi()
+      .then(({ token }) => {
+        localStorage.setItem('token', token);
+      });
+    this.fetchQuestions(localStorage.getItem('token'));
+  }
+
   handleChange(event, field) {
     this.setState({
       [field]: event.target.value,
@@ -28,27 +31,28 @@ class Home extends React.Component {
   }
 
   render() {
+    const { email, name } = this.state;
     return (
       <div>
         <input
           data-testid="input-gravatar-email"
           type="email"
-          value={this.state.email}
+          value={email}
           onChange={(event) => this.handleChange(event, 'email')}
           placeholder="email"
         />
         <input
           data-testid="input-player-name"
           type="text"
-          value={this.state.name}
+          value={name}
           onChange={(event) => this.handleChange(event, 'name')}
           placeholder="name"
         />
         {
-          this.state.name === '' || this.state.email === ''
+          name === '' || email === ''
             ? <button disabled data-testid="btn-play" type="button">Jogar</button>
             : (
-              <Link onClick={fetchToken()} data-testid="btn-play" type="button" to="/play">
+              <Link onClick={this.startGame()} data-testid="btn-play" type="button" to="/play">
                 Jogar
               </Link>
             )
@@ -59,4 +63,15 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    token: state.token,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

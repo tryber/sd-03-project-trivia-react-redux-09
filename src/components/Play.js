@@ -14,8 +14,11 @@ class Play extends React.Component {
           <section className="body">
             <div className="question">
               <p>Categoria: <span data-testid="question-category">Humor</span></p>
-              <p className="text-question" data-testid="question-text">Exemplo de pergunta aqui, Exemplo de pergunta aqui,
-              Exemplo de pergunta aqui,Exemplo de pergunta aqui, exemplo exemplo exemplo exemplo
+              <p className="text-question" data-testid="question-text">
+                Exemplo de 
+                pergunta aqui, Exemplo de pergunta aqui,
+                Exemplo de pergunta aqui,Exemplo de pergunta aqui,
+                exemplo exemplo exemplo exemplo
               </p>
             </div>
             <div className="answers">

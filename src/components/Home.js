@@ -54,17 +54,15 @@ class Home extends React.Component {
               this.state.name === '' || this.state.email === ''
                 ? <button disabled className="button-disabled" data-testid="btn-play" type="button">Jogar</button>
                 : (
-                    <Link onClick={fetchToken()} data-testid="btn-play" type="button" className="link-play" to="/play">
-                      <button className="button-login">Jogar</button>
-                    </Link>
+                  <Link onClick={fetchToken()} data-testid="btn-play" type="button" className="link-play" to="/play">
+                    <button className="button-login">Jogar</button>
+                  </Link>
                 )
-            }
-            <br /><br />
+            } <br /><br />
             <Link type="button" className="button-settings" data-testid="btn-settings" to="/settings">Settings</Link>
           </form>
         </section>
       </div>
-
     );
   }
 }

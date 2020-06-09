@@ -1,4 +1,4 @@
-import getToken from '../../service/fetchToken';
+/* import getToken from '../../service/fetchToken'; */
 import getQuestions from '../../service/fetchQuestions';
 
 export const REQUEST_API_QUESTIONS = 'RESQUEST_API_QUESTIONS';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import tokenApi from '../service/fetchToken';
-import { getTokenAction, getQuestionsAction } from '../redux/actions/index';
+import { getQuestionsAction } from '../redux/actions/index';
 
 class Home extends React.Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class Home extends React.Component {
       email: '',
     };
 
+    this.startGame = this.startGame.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -21,7 +22,7 @@ class Home extends React.Component {
       .then(({ token }) => {
         localStorage.setItem('token', token);
       });
-    this.fetchQuestions(localStorage.getItem('token'));
+    this.props.fetchQuestions(localStorage.getItem('token'));
   }
 
   handleChange(event, field) {

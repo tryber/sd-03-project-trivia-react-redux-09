@@ -17,12 +17,11 @@ class Home extends React.Component {
   }
 
   startGame() {
-    this.fetchToken();
-    /* .then(token => ) */
-    /*  tokenApi()
+    tokenApi()
       .then(({ token }) => {
         localStorage.setItem('token', token);
-      }); */
+      });
+    this.fetchQuestions(localStorage.getItem('token'));
   }
 
   handleChange(event, field) {
@@ -72,7 +71,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchToken: () => dispatch(getTokenAction()),
   fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
 });
 

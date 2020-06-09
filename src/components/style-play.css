@@ -7,11 +7,10 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   margin-top: 10%;
-  margin: 0 auto;
   min-height: 500px;
   padding: 20px;
   width: 600px;
-  }
+}
 
 .header {
   align-self: auto;
@@ -24,7 +23,7 @@
   min-height: 70px;
   order: 0;
   width: 100%;
-  }
+}
 
 .header h4 {
   color: rgb(60, 40, 107);
@@ -41,7 +40,7 @@
   min-height: 350px;
   order: 0;
   width: 100%;
-  }
+}
 
 .footer {
   align-self: auto;
@@ -49,7 +48,7 @@
   min-height: 70px;
   order: 0;
   width: 100%;
-  }
+}
 
 .question {
   min-height: 300px;

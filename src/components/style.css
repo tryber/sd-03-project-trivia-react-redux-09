@@ -1,6 +1,5 @@
 body {
   background: #44c4e7;
-  font-family: "Roboto";
 }
 
 .loginbox {
@@ -26,7 +25,6 @@ h2 {
   box-sizing: border-box;
   color: rgb(2, 2, 34);
   display: block;
-  font-family: "Roboto";
   font-size: 14px;
   margin: 0 0 20px;
   outline: none;
@@ -49,7 +47,6 @@ h2 {
 
 .link-play {
   color: white;
-  font-family: 'Roboto';
   font-size: 14px;
   font-weight: 400;
   text-decoration: none;
@@ -59,7 +56,6 @@ h2 {
   background: #44c4e7;
   border: 0;
   color: white;
-  font-family: 'Roboto';
   font-size: 14px;
   font-weight: 400;
   padding: 10px 15px;

@@ -1,9 +1,16 @@
-import { REQUEST_API_QUESTIONS, RECEIVE_API_QUESTIONS, RECEIVE_API_QUESTIONS_ERROR } from '../actions/index';
+import {
+  REQUEST_API_QUESTIONS,
+  RECEIVE_API_QUESTIONS,
+  RECEIVE_API_QUESTIONS_ERROR,
+  RECEIVE_API_GRAVATAR,
+} from '../actions/index';
 
 const INITIAL_STATE = {
   isFetching: false,
   questions: [],
   error: '',
+  name: '',
+  email: '',
 };
 
 const questionsReducer = (state = INITIAL_STATE, action) => {
@@ -24,6 +31,12 @@ const questionsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isFetching: false,
         error: action.error,
+      };
+    case RECEIVE_API_GRAVATAR:
+      return {
+        ...state,
+        name: action.name,
+        email: action.email,
       };
     default:
       return state;

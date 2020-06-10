@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import tokenApi from '../service/fetchToken';
-import { getQuestionsAction } from '../redux/actions/index';
+import { getQuestionsAction, storeGravatarImage } from '../redux/actions/index';
 
 class Home extends React.Component {
   constructor(props) {
@@ -18,11 +18,13 @@ class Home extends React.Component {
   }
 
   startGame() {
+    const { name, email } = this.state;
     tokenApi()
       .then(({ token }) => {
         localStorage.setItem('token', token);
       });
     this.props.fetchQuestions(localStorage.getItem('token'));
+    this.props.perfil(name, email);
   }
 
   handleChange(event, field) {
@@ -65,7 +67,6 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     token: state.token,
   };
@@ -73,6 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
+  perfil: (name, email) => dispatch(storeGravatarImage(name, email)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

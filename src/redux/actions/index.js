@@ -15,6 +15,7 @@ const receiveQuestionsSucess = (data) => ({
   type: RECEIVE_API_QUESTIONS,
   payload: data.results,
 });
+
 const receiveQuestionsError = (error) => ({
   type: RECEIVE_API_QUESTIONS_ERROR,
   error,
@@ -31,7 +32,8 @@ export function getQuestionsAction(token) {
   };
 }
 
-export const storeGravatarImage = (image) => ({
+export const storeGravatarImage = (name, email) => ({
   type: RECEIVE_API_GRAVATAR,
-  image,
+  name,
+  email,
 });

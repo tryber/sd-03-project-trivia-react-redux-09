@@ -2,17 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Answers from './Answers';
-
-
-function shuffleArray(array) {
-  const arrayToSuffle = [...array];
-  for (let i = arrayToSuffle.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = arrayToSuffle[i];
-    arrayToSuffle[i] = arrayToSuffle[j];
-    arrayToSuffle[j] = temp;
-  }
-}
+import { getQuestionsAction, computeNewScore } from '../redux/actions/index';
+import tokenApi from '../service/fetchToken';
+import '../App.css';
 
 class Play extends React.Component {
   constructor(props) {
@@ -22,63 +14,103 @@ class Play extends React.Component {
       turn: 0,
       counter: 30,
     };
-    this.finishTurn = this.finishTurn.bind(this);
+    this.nextTurn = this.nextTurn.bind(this);
+    this.startGame = this.startGame.bind(this);
+    this.hitAnswer = this.hitAnswer.bind(this);
+    this.countDownTimer = this.countDownTimer.bind(this);
   }
 
-  nextTurn(e) {
-    console.log(e.target);
+  componentDidMount() {
+    this.startGame();
+  }
+
+  startGame() {
+    const { fetchQuestions } = this.props;
+    tokenApi()
+      .then(({ token }) => {
+        localStorage.setItem('token', token);
+      });
+    fetchQuestions(localStorage.getItem('token'));
+    this.countDownTimer();
+  }
+
+  nextTurn() {
     const { turn } = this.state;
     const newTurn = turn + 1;
     this.setState({
       turn: newTurn,
       answered: false,
       counter: 30,
+      /*       paused: false, */
     });
+    this.countDownTimer();
   }
 
-  renderAnswers() {
-    const { props: { questions }, state: { turn } } = this;
-    const question = questions[turn];
-    const correctAnswer = (
-      <button
-        onClick={() => this.hitAnswer('correct')}
-        data-testid="correct-answer"
-        type="button"
-      >
-        {question.correct_answer}
-      </button>
-    );
-    const wrongAnswers = question.incorrect_answers.map(
-      (e, index) => (
-        <button
-          onClick={() => this.hitAnswer('wrong')}
-          data-testid={`wrong-answer-${index}`}
-          type="button"
-        >
-          {e}
-        </button>
-      ),
-    );
-    const answerArray = [correctAnswer, ...wrongAnswers];
-    shuffleArray(answerArray);
-    return answerArray;
+  hitAnswer(answer) {
+    console.log('-----HIT____ME----- DAAAA DDAAA');
+    const { state: { counter, turn }, props: { hitCorrectAnswer, questions } } = this;
+    this.setState({ answered: true });
+    const dificulty = (dif) => {
+      switch (true) {
+        case dif === 'hard':
+          return 3;
+        case dif === 'medium':
+          return 2;
+        case dif === 'easy':
+          return 1;
+        default:
+          return 1;
+      }
+    };
+    const points = 10 + (counter * dificulty(questions[turn].dificulty));
+    return answer === 'correct' && hitCorrectAnswer(points);
+  }
+
+  countDownTimer() {
+    const counterInterval = setInterval(() => this.setState((prevState) => {
+      console.log('answered:', prevState.answered);
+      console.log('counter:', prevState.counter);
+      if (prevState.counter > 0 && !prevState.answered) {
+        return ({ counter: prevState.counter - 1 });
+      }
+      return !prevState.answered && this.hitAnswer('wrong') && clearInterval(counterInterval);
+    }), 1000);
+    return counterInterval;
   }
 
   render() {
     const { questions } = this.props;
-    console.log(questions);
-    const question = this.renderAnswers();
-    return questions.length === 0 ? <h1>Loading</h1>
-      : <Answers question={question} nextTurn={this.nextTurn} />;
+    const { counter, turn, answered } = this.state;
+    return questions.length > 0 ? (
+      <div>
+        <Answers
+          question={questions[turn]}
+          nextTurn={this.nextTurn}
+          counter={counter}
+          hitAnswer={this.hitAnswer}
+          turn={turn}
+          answered={answered}
+        />
+      </div>
+    ) : <h1>Loading</h1>;
   }
 }
 
 const mapStateToProps = (state) => ({
   questions: state.questions.questions,
+  isFetching: state.questions.isFetching,
 });
 
-export default connect(mapStateToProps)(Play);
+const mapDispatchToProps = (dispatch) => ({
+  hitCorrectAnswer: (points) => dispatch(computeNewScore(points)),
+  fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Play);
 
 Play.propTypes = {
+  hitCorrectAnswer: propTypes.func.isRequired,
   questions: propTypes.arrayOf(propTypes.object).isRequired,
+  fetchQuestions: propTypes.func.isRequired,
 };

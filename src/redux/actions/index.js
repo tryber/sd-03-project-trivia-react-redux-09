@@ -22,6 +22,7 @@ const receiveQuestionsError = (error) => ({
 export function getQuestionsAction(token) {
   return (dispatch) => {
     dispatch(requestApiQuestions());
+    console.log('requestApiQuestions():', getQuestions(token))
     return getQuestions(token)
       .then(
         (data) => dispatch(receiveQuestionsSucess(data)),
@@ -33,4 +34,11 @@ export function getQuestionsAction(token) {
 export const storeGravatarImage = (image) => ({
   type: RECEIVE_API_GRAVATAR,
   image,
+});
+
+export const HIT_CORRECT_ANSWER = 'HIT_CORRECT_ANSWER';
+
+export const computeNewScore = (scoreAddition) => ({
+  type: HIT_CORRECT_ANSWER,
+  payload: scoreAddition,
 });

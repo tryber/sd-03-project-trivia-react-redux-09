@@ -1,9 +1,7 @@
 import React from 'react';
-import propTypes from 'prop-types';
+/* import propTypes from 'prop-types'; */
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import tokenApi from '../service/fetchToken';
-import { getQuestionsAction } from '../redux/actions/index';
 
 class Home extends React.Component {
   constructor(props) {
@@ -13,17 +11,8 @@ class Home extends React.Component {
       name: '',
       email: '',
     };
-    this.startGame = this.startGame.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
 
-  startGame() {
-    const { fetchQuestions } = this.props;
-    tokenApi()
-      .then(({ token }) => {
-        localStorage.setItem('token', token);
-      });
-    return fetchQuestions(localStorage.getItem('token'));
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event, field) {
@@ -62,12 +51,7 @@ class Home extends React.Component {
           name === '' || email === ''
             ? <button disabled data-testid="btn-play" type="button">Jogar</button>
             : (
-              <Link
-                onClick={() => this.startGame()}
-                data-testid="btn-play"
-                type="button"
-                to="/play"
-              >
+              <Link data-testid="btn-play" type="button" to="/play">
                 Jogar
               </Link>
             )
@@ -78,12 +62,4 @@ class Home extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
-});
-
-export default connect(null, mapDispatchToProps)(Home);
-
-Home.propTypes = {
-  fetchQuestions: propTypes.func.isRequired,
-};
+export default connect()(Home);

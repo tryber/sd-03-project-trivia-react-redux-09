@@ -1,6 +1,6 @@
 import React from 'react';
-import './style-play.css';
 import propTypes from 'prop-types';
+import './style-play.css';
 
 const Questions = ({ question, category }) => (
   <div className="question">

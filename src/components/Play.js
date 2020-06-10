@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import Answers from './Answers';
 import { getQuestionsAction, computeNewScore } from '../redux/actions/index';
 import tokenApi from '../service/fetchToken';
+import Answers from './Answers';
+import Question from './Question';
 import '../App.css';
+
 
 class Play extends React.Component {
   constructor(props) {
@@ -35,14 +37,12 @@ class Play extends React.Component {
   }
 
   nextTurn() {
-    const { turn } = this.state;
-    const newTurn = turn + 1;
-    this.setState({
-      turn: newTurn,
+    this.setState((prevState) => ({
+      turn: prevState.turn + 1,
       answered: false,
       counter: 30,
       /*       paused: false, */
-    });
+    }));
     this.countDownTimer();
   }
 
@@ -83,6 +83,8 @@ class Play extends React.Component {
     const { counter, turn, answered } = this.state;
     return questions.length > 0 ? (
       <div>
+        <Question question={questions[turn].question} category={questions[turn].category} />
+        <p>{counter}</p>
         <Answers
           question={questions[turn]}
           nextTurn={this.nextTurn}

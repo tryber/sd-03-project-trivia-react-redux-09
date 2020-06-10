@@ -8,17 +8,15 @@ class Play extends React.Component {
         <div className="container-play">
           <section className="header">
             <img src="" data-testid="header-profile-picture" alt="gravatar" />
-            <h4>Jogador: <span data-testid="header-player-name">Rodrigo</span></h4>
-            <h4>Pontos: <span data-testid="header-score">20</span></h4>
+            <span className="txt-header">Jogador: <span data-testid="header-player-name">Rodrigo</span></span>
+            <span className="txt-header">Pontos: <span data-testid="header-score">20</span></span>
           </section>
           <section className="body">
             <div className="question">
               <p>Categoria: <span data-testid="question-category">Humor</span></p>
               <p className="text-question" data-testid="question-text">
                 Exemplo de 
-                pergunta aqui, Exemplo de pergunta aqui,
-                Exemplo de pergunta aqui,Exemplo de pergunta aqui,
-                exemplo exemplo exemplo exemplo
+                pergunta aqui, Exemplo de pergunta aqui, teste teste teste
               </p>
             </div>
             <div className="answers">

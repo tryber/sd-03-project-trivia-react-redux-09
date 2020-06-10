@@ -8,6 +8,22 @@ import Question from './Question';
 import '../App.css';
 import './style-play.css';
 
+function renderHeader() {
+  return (
+    <section className="header">
+      <img src="" data-testid="header-profile-picture" alt="gravatar" />
+      <span className="txt-header">
+        Jogador:
+        <span data-testid="header-player-name">Rodrigo</span>
+      </span>
+      <span className="txt-header">
+        Pontos:
+        <span data-testid="header-score">20</span>
+      </span>
+    </section>
+  );
+}
+
 class Play extends React.Component {
   constructor(props) {
     super(props);
@@ -84,17 +100,7 @@ class Play extends React.Component {
     return questions.length > 0 ? (
       <center>
         <div className="container-play">
-          <section className="header">
-            <img src="" data-testid="header-profile-picture" alt="gravatar" />
-            <span className="txt-header">
-              Jogador:
-              <span data-testid="header-player-name">Rodrigo</span>
-            </span>
-            <span className="txt-header">
-              Pontos:
-              <span data-testid="header-score">20</span>
-            </span>
-          </section>
+          {renderHeader()}
           <section className="body">
             <Question question={questions[turn].question} category={questions[turn].category} />
             <Answers

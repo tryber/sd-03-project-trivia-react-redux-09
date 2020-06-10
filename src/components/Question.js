@@ -1,5 +1,6 @@
 import React from 'react';
 import './style-play.css';
+import propTypes from 'prop-types';
 
 const Questions = ({ question, category }) => (
   <div className="question">
@@ -12,3 +13,8 @@ const Questions = ({ question, category }) => (
 );
 
 export default Questions;
+
+Questions.propTypes = {
+  question: propTypes.string.isRequired,
+  category: propTypes.string.isRequired,
+};

@@ -52,21 +52,23 @@ class Home extends React.Component {
           <form className="loginbox">
             <h2>Trivia</h2>
             {this.renderInputs(email, name)}
-            {
-          name === '' || email === ''
-            ? <button disabled data-testid="btn-play" className="button-disabled" type="button">Jogar</button>
-            : (
-
-
+            { name === '' || email === '' ? (
+              <button
+                disabled
+                data-testid="btn-play"
+                className="button-disabled"
+                type="button"
+              >
+                Jogar
+              </button>
+            ) : (
               <Link data-testid="btn-play" to="/play" className="link-play">
-                <button type="button" className="button-login">
-                  Jogar
-                </button>
-
+                <button type="button" className="button-login">Jogar</button>
               </Link>
-            )
-        }
-            <Link type="button" className="button-settings" data-testid="btn-settings" to="/settings">Settings</Link>
+            )}
+            <Link className="button-settings" data-testid="btn-settings" to="/settings">
+              Settings
+            </Link>
           </form>
         </section>
       </div>

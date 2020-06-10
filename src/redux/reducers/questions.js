@@ -17,7 +17,7 @@ const questionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isFetching: false,
-        questions: action.payload,
+        questions: [...action.payload],
       };
     case RECEIVE_API_QUESTIONS_ERROR:
       return {

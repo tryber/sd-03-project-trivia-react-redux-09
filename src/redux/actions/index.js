@@ -1,4 +1,3 @@
-import getToken from '../../service/fetchToken';
 import getQuestions from '../../service/fetchQuestions';
 
 export const REQUEST_API_QUESTIONS = 'RESQUEST_API_QUESTIONS';
@@ -22,7 +21,7 @@ const receiveQuestionsError = (error) => ({
 
 export function getQuestionsAction(token) {
   return (dispatch) => {
-    dispatch(requestApiQuestions);
+    dispatch(requestApiQuestions());
     return getQuestions(token)
       .then(
         (data) => dispatch(receiveQuestionsSucess(data)),

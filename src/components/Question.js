@@ -1,10 +1,14 @@
 import React from 'react';
+import './style-play.css';
 
 const Questions = ({ question, category }) => (
-  <span>
-    <span data-testid="question-category" value={category} />
-    <p data-testid="question-text">{question}</p>
-  </span>
+  <div className="question">
+    <p>
+      Categoria:
+      <span data-testid="question-category" value={category} />
+    </p>
+    <p className="text-question" data-testid="question-text">{question}</p>
+  </div>
 );
 
 export default Questions;

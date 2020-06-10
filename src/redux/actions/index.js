@@ -22,7 +22,7 @@ const receiveQuestionsError = (error) => ({
 export function getQuestionsAction(token) {
   return (dispatch) => {
     dispatch(requestApiQuestions());
-    console.log('requestApiQuestions():', getQuestions(token))
+    console.log('requestApiQuestions():', getQuestions(token));
     return getQuestions(token)
       .then(
         (data) => dispatch(receiveQuestionsSucess(data)),

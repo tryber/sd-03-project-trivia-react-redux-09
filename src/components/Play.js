@@ -6,7 +6,7 @@ import tokenApi from '../service/fetchToken';
 import Answers from './Answers';
 import Question from './Question';
 import '../App.css';
-
+import './style-play.css';
 
 class Play extends React.Component {
   constructor(props) {
@@ -82,18 +82,36 @@ class Play extends React.Component {
     const { questions } = this.props;
     const { counter, turn, answered } = this.state;
     return questions.length > 0 ? (
-      <div>
-        <Question question={questions[turn].question} category={questions[turn].category} />
-        <p>{counter}</p>
-        <Answers
-          question={questions[turn]}
-          nextTurn={this.nextTurn}
-          counter={counter}
-          hitAnswer={this.hitAnswer}
-          turn={turn}
-          answered={answered}
-        />
-      </div>
+      <center>
+        <div className="container-play">
+          <section className="header">
+            <img src="" data-testid="header-profile-picture" alt="gravatar" />
+            <span className="txt-header">
+              Jogador:
+              <span data-testid="header-player-name">Rodrigo</span>
+            </span>
+            <span className="txt-header">
+              Pontos:
+              <span data-testid="header-score">20</span>
+            </span>
+          </section>
+          <section className="body">
+            <Question question={questions[turn].question} category={questions[turn].category} />
+            <Answers
+              question={questions[turn]}
+              nextTurn={this.nextTurn}
+              counter={counter}
+              hitAnswer={this.hitAnswer}
+              turn={turn}
+              answered={answered}
+            />
+          </section>
+          <section className="footer">
+            <h4>{counter}</h4>
+            <button type="button" className="button-next" data-testid="btn-next" onClick={() => this.nextTurn()}>PRÓXIMA</button>
+          </section>
+        </div>
+      </center>
     ) : <h1>Loading</h1>;
   }
 }

@@ -17,6 +17,12 @@ class Answers extends React.Component {
     return console.log('montei putz');
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { question } = this.props;
+    if (nextProps.question !== question || nextProps.answered) return true;
+    return false;
+  }
+
   renderAnswers() {
     const { props: { question, answered, hitAnswer } } = this;
     const correctAnswer = (
@@ -48,19 +54,11 @@ class Answers extends React.Component {
   }
 
   render() {
-    const { counter, nextTurn, question: { question, category } } = this.props;
+    const { question: { question } } = this.props;
     const shuffledArray = shuffleArray(this.renderAnswers());
     return typeof question === 'string' && (
-      <div>
-        <p>{counter}</p>
-        <span>
-          <span data-testid="question-category" value={category} />
-          <p data-testid="question-text">{question}</p>
-        </span>
-        <div>
+      <div className="answers">
           {shuffledArray.map((answer) => answer)}
-        </div>
-        <button type="button" onClick={() => nextTurn()}>Next Question</button>
       </div>
     );
   }
@@ -69,14 +67,12 @@ class Answers extends React.Component {
 export default connect()(Answers);
 
 Answers.propTypes = {
-  nextTurn: propTypes.func.isRequired,
   question: propTypes.shape({
     category: propTypes.string,
     question: propTypes.string,
     correct_answer: propTypes.string.isRequired,
     incorrect_answers: propTypes.arrayOf(propTypes.string).isRequired,
   }).isRequired,
-  counter: propTypes.number.isRequired,
   answered: propTypes.bool.isRequired,
   hitAnswer: propTypes.func.isRequired,
 };

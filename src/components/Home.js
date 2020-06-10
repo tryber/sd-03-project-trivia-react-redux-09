@@ -1,7 +1,7 @@
 import React from 'react';
 /* import propTypes from 'prop-types'; */
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import './style.css';
 
 class Home extends React.Component {
   constructor(props) {
@@ -28,15 +28,17 @@ class Home extends React.Component {
           data-testid="input-gravatar-email"
           type="email"
           value={email}
+          className="input-login"
           onChange={(event) => this.handleChange(event, 'email')}
-          placeholder="email"
+          placeholder="E-mail"
         />
         <input
           data-testid="input-player-name"
+          className="input-login"
           type="text"
           value={name}
           onChange={(event) => this.handleChange(event, 'name')}
-          placeholder="name"
+          placeholder="Name"
         />
       </div>
     );
@@ -46,20 +48,30 @@ class Home extends React.Component {
     const { email, name } = this.state;
     return (
       <div>
-        {this.renderInputs(email, name)}
-        {
+        <section>
+          <form className="loginbox">
+            <h2>Trivia</h2>
+            {this.renderInputs(email, name)}
+            {
           name === '' || email === ''
-            ? <button disabled data-testid="btn-play" type="button">Jogar</button>
+            ? <button disabled data-testid="btn-play" className="button-disabled" type="button">Jogar</button>
             : (
-              <Link data-testid="btn-play" type="button" to="/play">
-                Jogar
+
+
+              <Link data-testid="btn-play" to="/play" className="link-play">
+                <button type="button" className="button-login">
+                  Jogar
+                </button>
+
               </Link>
             )
         }
-        <Link type="button" data-testid="btn-settings" to="/settings">Settings</Link>
+            <Link type="button" className="button-settings" data-testid="btn-settings" to="/settings">Settings</Link>
+          </form>
+        </section>
       </div>
     );
   }
 }
 
-export default connect()(Home);
+export default Home;

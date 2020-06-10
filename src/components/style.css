@@ -22,8 +22,7 @@ h2 {
 
 .input-login {
   border: 1px solid #ccc;
-  
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
   color: rgb(2, 2, 34);
   display: block;
   font-size: 14px;

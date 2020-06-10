@@ -95,8 +95,7 @@ class Play extends React.Component {
   }
 
   render() {
-    const { questions } = this.props;
-    const { counter, turn, answered } = this.state;
+    const { props: { questions }, state: { counter, turn, answered } } = this;
     return questions.length > 0 ? (
       <center>
         <div className="container-play">
@@ -114,7 +113,13 @@ class Play extends React.Component {
           </section>
           <section className="footer">
             <h4>{counter}</h4>
-            <button type="button" className="button-next" data-testid="btn-next" onClick={() => this.nextTurn()}>PRÓXIMA</button>
+            <button
+              type="button"
+              className="button-next"
+              data-testid="btn-next"
+              onClick={() => this.nextTurn()}
+            > PRÓXIMA
+            </button>
           </section>
         </div>
       </center>

@@ -118,8 +118,7 @@ class Play extends React.Component {
               className="button-next"
               data-testid="btn-next"
               onClick={() => this.nextTurn()}
-            > PRÓXIMA
-            </button>
+            >PRÓXIMA</button>
           </section>
         </div>
       </center>

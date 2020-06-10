@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import tokenApi from '../service/fetchToken';
 import { getQuestionsAction, storeGravatarImage } from '../redux/actions/index';
 
@@ -66,11 +67,9 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.token,
-  };
-};
+const mapStateToProps = (state) => ({
+  token: state.token,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
@@ -78,3 +77,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+Home.propType = {
+  fetchQuestions: PropTypes.func.isRequired,
+  perfil: PropTypes.func.isRequired,
+};

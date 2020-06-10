@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
-Home.propType = {
+Home.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
   perfil: PropTypes.func.isRequired,
 };

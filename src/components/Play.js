@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
+const CryptoJS = require('crypto-js');
+
 class Play extends React.Component {
   render() {
     const { name, email } = this.props;
-    const CryptoJS = require('crypto-js');
     const hash = CryptoJS.MD5(email);
     return (
       <div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import tokenApi from '../service/fetchToken';
@@ -17,11 +18,12 @@ class Home extends React.Component {
   }
 
   startGame() {
+    const { fetchQuestions } = this.props;
     tokenApi()
       .then(({ token }) => {
         localStorage.setItem('token', token);
       });
-    return this.props.fetchQuestions(localStorage.getItem('token'));
+    return fetchQuestions(localStorage.getItem('token'));
   }
 
   handleChange(event, field) {
@@ -30,8 +32,7 @@ class Home extends React.Component {
     });
   }
 
-  render() {
-    const { email, name } = this.state;
+  renderInputs(email, name) {
     return (
       <div>
         <input
@@ -48,11 +49,25 @@ class Home extends React.Component {
           onChange={(event) => this.handleChange(event, 'name')}
           placeholder="name"
         />
+      </div>
+    );
+  }
+
+  render() {
+    const { email, name } = this.state;
+    return (
+      <div>
+        {this.renderInputs(email, name)}
         {
           name === '' || email === ''
             ? <button disabled data-testid="btn-play" type="button">Jogar</button>
             : (
-              <Link onClick={() => this.startGame()} data-testid="btn-play" type="button" to="/play">
+              <Link
+                onClick={() => this.startGame()}
+                data-testid="btn-play"
+                type="button"
+                to="/play"
+              >
                 Jogar
               </Link>
             )
@@ -68,3 +83,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(Home);
+
+Home.propTypes = {
+  fetchQuestions: propTypes.func.isRequired,
+};

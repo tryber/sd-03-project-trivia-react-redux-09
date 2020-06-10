@@ -5,11 +5,12 @@ import Answers from './Answers';
 
 
 function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i -= 1) {
+  const arrayToSuffle = [...array];
+  for (let i = arrayToSuffle.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+    const temp = arrayToSuffle[i];
+    arrayToSuffle[i] = arrayToSuffle[j];
+    arrayToSuffle[j] = temp;
   }
 }
 
@@ -26,11 +27,13 @@ class Play extends React.Component {
 
   nextTurn(e) {
     console.log(e.target);
-    this.setState((prevState) => ({
-      turn: prevState.turn += 1,
+    const { turn } = this.state;
+    const newTurn = turn + 1;
+    this.setState({
+      turn: newTurn,
       answered: false,
       counter: 30,
-    }));
+    });
   }
 
   renderAnswers() {

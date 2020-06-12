@@ -13,52 +13,87 @@ function shuffleArray(array) {
   return arrayToSuffle;
 }
 class Answers extends React.Component {
-  componentDidMount() {
-    return console.log('montei putz');
+  constructor(props) {
+    super(props);
+    this.state = {
+      shouldSuffle: true,
+      answers: [],
+    };
+    this.renderAnswers = this.renderAnswers.bind(this);
   }
 
-  shouldComponentUpdate(nextProps) {
-    const { question } = this.props;
-    if (nextProps.question !== question || nextProps.answered) return true;
+  /*   shouldComponentUpdate(nextProps, nextState) {
+    const { props: { question: { question }, answered }, state: { shouldSuffle, answers } } = this;
+    if ( shouldSuffle || answered && nextState.answers !== answers) {
+      return true;
+    }
     return false;
   }
+ */
+  /*   shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps, nextState)
+    if (nextProps.answered || this.state.shouldSuffle) return true;
+    if (nextProps.turn !== this.props.turn || nextProps.question.question !== this.props.question.question) {
+      this.setState({shouldSuffle: true})
+      return true;
+    }
+    return false
+  } */
 
   renderAnswers() {
-    const { props: { question, answered, hitAnswer } } = this;
-    const correctAnswer = (
+    const {
+      props: { answered, hitAnswer, question: { correct_answer, incorrect_answers } },
+      state: { answers, shouldSuffle },
+    } = this;
+
+    console.log(answers);
+    const correctAnswer = (correct) => (
       <button
-        onClick={() => hitAnswer('correct')}
+        onClick={hitAnswer('correct')}
         data-testid="correct-answer"
         type="button"
+        key={correct}
         className={answered ? 'green-border' : 'none'}
         disabled={answered}
       >
-        {question.correct_answer}
+        {correct}
       </button>
     );
-    const wrongAnswers = question.incorrect_answers.map(
-      (e, index) => (
-        <button
-          onClick={() => hitAnswer('wrong')}
-          data-testid={`wrong-answer-${index}`}
-          type="button"
-          className={answered ? 'red-border' : 'none'}
-          disabled={answered}
-        >
-          {e}
-        </button>
-      ),
+
+    const wrongAnswer = (answerString) => (
+      <button
+        key={answerString}
+        onClick={hitAnswer('wrong')}
+        data-testid={`wrong-answer-${incorrect_answers.indexOf((answer) => answer === answerString)}`}
+        type="button"
+        className={answered ? 'red-border' : 'none'}
+        disabled={answered}
+      >
+        {answerString}
+      </button>
     );
-    const answerArray = wrongAnswers.length > 0 ? [correctAnswer, ...wrongAnswers] : [];
-    return answerArray.length > 0 ? answerArray : [];
+    const answersArray = answers.map(
+      (answer) => (answer === correct_answer ? correctAnswer(answer) : wrongAnswer(answer)),
+    );
+    /*     const answerArray = wrongAnswers.length > 0 ? [correctAnswer, ...wrongAnswers] : []; */
+    return answersArray;
   }
 
+
   render() {
-    const { question: { question } } = this.props;
-    const shuffledArray = shuffleArray(this.renderAnswers());
-    return typeof question === 'string' && (
+    const {
+      props: { question: { correct_answer, incorrect_answers } },
+      state: { answers },
+    } = this;
+    const originalOrder = [correct_answer, ...incorrect_answers];
+    if (JSON.stringify(originalOrder.sort()) !== JSON.stringify(answers.sort())) {
+      this.setState({ answers: shuffleArray(originalOrder), shouldSuffle: false });
+    }
+    console.log(answers);
+    console.log(correct_answer);
+    return answers.length > 0 && (
       <div className="answers">
-          {shuffledArray.map((answer) => answer)}
+          {this.renderAnswers().map((answer) => answer)}
       </div>
     );
   }

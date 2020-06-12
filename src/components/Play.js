@@ -5,6 +5,7 @@ import { getQuestionsAction, computeNewScore } from '../redux/actions/index';
 import tokenApi from '../service/fetchToken';
 import Answers from './Answers';
 import Question from './Question';
+import Footer from './Footer';
 import '../App.css';
 import './style-play.css';
 
@@ -42,14 +43,30 @@ class Play extends React.Component {
     this.startGame();
   }
 
+  countDownTimer() {
+    const { answered, counter } = this.state;
+    const timer = () => setInterval(() => this.setState((prevState) => {
+      switch (true) {
+        case counter > 0 && !prevState.answered:
+          return ({ counter: prevState.counter - 1 });
+        case answered:
+          clearInterval(timer);
+          return this.hitAnswer('wrong');
+        default:
+          clearInterval(timer);
+          return prevState;
+      }
+    }), 1000);
+    return timer;
+  }
+
   startGame() {
     const { fetchQuestions } = this.props;
     tokenApi()
       .then(({ token }) => {
         localStorage.setItem('token', token);
       });
-    fetchQuestions(localStorage.getItem('token'));
-    this.countDownTimer();
+    fetchQuestions(localStorage.getItem('token')).then(this.countDownTimer());
   }
 
   nextTurn() {
@@ -64,8 +81,8 @@ class Play extends React.Component {
 
   hitAnswer(answer) {
     console.log('-----HIT____ME----- DAAAA DDAAA');
-    const { state: { counter, turn }, props: { hitCorrectAnswer, questions } } = this;
     this.setState({ answered: true });
+    const { state: { counter, turn }, props: { hitCorrectAnswer, questions } } = this;
     const dificulty = (dif) => {
       switch (true) {
         case dif === 'hard':
@@ -82,18 +99,6 @@ class Play extends React.Component {
     return answer === 'correct' && hitCorrectAnswer(points);
   }
 
-  countDownTimer() {
-    const counterInterval = setInterval(() => this.setState((prevState) => {
-      console.log('answered:', prevState.answered);
-      console.log('counter:', prevState.counter);
-      if (prevState.counter > 0 && !prevState.answered) {
-        return ({ counter: prevState.counter - 1 });
-      }
-      return !prevState.answered && this.hitAnswer('wrong') && clearInterval(counterInterval);
-    }), 1000);
-    return counterInterval;
-  }
-
   render() {
     const { props: { questions }, state: { counter, turn, answered } } = this;
     return questions.length > 0 ? (
@@ -105,21 +110,13 @@ class Play extends React.Component {
             <Answers
               question={questions[turn]}
               nextTurn={this.nextTurn}
-              counter={counter}
-              hitAnswer={this.hitAnswer}
+              hitAnswer={() => this.hitAnswer}
               turn={turn}
               answered={answered}
+              countDownTimer={this.countDownTimer}
             />
           </section>
-          <section className="footer">
-            <h4>{counter}</h4>
-            <button
-              type="button"
-              className="button-next"
-              data-testid="btn-next"
-              onClick={() => this.nextTurn()}
-            >PRÓXIMA</button>
-          </section>
+          <Footer nextTurn={this.nextTurn} counter={counter} />
         </div>
       </center>
     ) : <h1>Loading</h1>;

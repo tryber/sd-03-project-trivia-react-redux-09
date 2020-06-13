@@ -109,6 +109,8 @@ class Play extends React.Component {
             <Question question={questions[turn].question} category={questions[turn].category} />
             <Answers
               question={questions[turn]}
+              correct={questions[turn].correct_answer}
+              incorrects={questions[turn].incorrect_answers}
               nextTurn={this.nextTurn}
               hitAnswer={() => this.hitAnswer}
               turn={turn}

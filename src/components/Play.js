@@ -6,24 +6,9 @@ import tokenApi from '../service/fetchToken';
 import Answers from './Answers';
 import Question from './Question';
 import Footer from './Footer';
+import PlayerHeader from './PlayerHeader'
 import '../App.css';
 import './style-play.css';
-
-function renderHeader() {
-  return (
-    <section className="header">
-      <img src="" data-testid="header-profile-picture" alt="gravatar" />
-      <span className="txt-header">
-        Jogador:
-        <span data-testid="header-player-name">{JSON.parse(localStorage.getItem('player')).name}</span>
-      </span>
-      <span className="txt-header">
-        Pontos:
-        <span data-testid="header-score">{JSON.parse(localStorage.getItem('player')).score}</span>
-      </span>
-    </section>
-  );
-}
 
 class Play extends React.Component {
   constructor(props) {
@@ -118,7 +103,7 @@ class Play extends React.Component {
     return questions.length > 0 ? (
       <center>
         <div className="container-play">
-          {renderHeader()}
+          <PlayerHeader />
           <section className="body">
             <Question question={questions[turn].question} category={questions[turn].category} />
             <Answers

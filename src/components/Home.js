@@ -51,6 +51,29 @@ class Home extends React.Component {
     );
   }
 
+  renderPlayButton(name, email) {
+    return name === '' || email === '' ? (
+      <button
+        disabled
+        data-testid="btn-play"
+        className="button-disabled"
+        type="button"
+      >
+        Jogar
+      </button>
+    ) : (
+      <Link data-testid="btn-play" to="/play" className="link-play">
+        <button
+          onClick={this.saveInfo()}
+          type="button"
+          className="button-login"
+        >
+          Jogar
+        </button>
+      </Link>
+    );
+  }
+
   render() {
     const { email, name } = this.state;
     return (
@@ -59,20 +82,7 @@ class Home extends React.Component {
           <form className="loginbox">
             <h2>Trivia</h2>
             {this.renderInputs(email, name)}
-            { name === '' || email === '' ? (
-              <button
-                disabled
-                data-testid="btn-play"
-                className="button-disabled"
-                type="button"
-              >
-                Jogar
-              </button>
-            ) : (
-              <Link data-testid="btn-play" to="/play" className="link-play">
-                <button onClick={this.saveInfo()} type="button" className="button-login">Jogar</button>
-              </Link>
-            )}
+            {this.renderPlayButton(name, email)}
             <Link className="button-settings" data-testid="btn-settings" to="/settings">
               Settings
             </Link>

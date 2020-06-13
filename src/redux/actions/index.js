@@ -3,8 +3,6 @@ import getQuestions from '../../service/fetchQuestions';
 export const REQUEST_API_QUESTIONS = 'RESQUEST_API_QUESTIONS';
 export const RECEIVE_API_QUESTIONS = 'RECEIVE_API_QUESTIONS';
 export const RECEIVE_API_QUESTIONS_ERROR = 'RECEIVE_API_QUESTIONS_ERROR';
-export const RECEIVE_API_GRAVATAR = 'RECEIVE_API_GRAVATAR';
-
 
 const requestApiQuestions = () => ({
   type: REQUEST_API_QUESTIONS,
@@ -31,14 +29,16 @@ export function getQuestionsAction(token) {
   };
 }
 
+export const RECEIVE_API_GRAVATAR = 'RECEIVE_API_GRAVATAR';
+
 export const storeGravatarImage = (image) => ({
   type: RECEIVE_API_GRAVATAR,
   image,
 });
 
-export const HIT_CORRECT_ANSWER = 'HIT_CORRECT_ANSWER';
+export const COMPUTE_GAME = 'COMPUTE_GAME';
 
-export const computeNewScore = (scoreAddition) => ({
-  type: HIT_CORRECT_ANSWER,
-  payload: scoreAddition,
+export const computeScore = (player, score, picture) => ({
+  type: COMPUTE_GAME,
+  payload: { player, score, picture },
 });

@@ -11,7 +11,7 @@ class Home extends React.Component {
       name: '',
       email: '',
     };
-
+    this.saveInfo = this.saveInfo.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -19,6 +19,13 @@ class Home extends React.Component {
     this.setState({
       [field]: event.target.value,
     });
+  }
+
+  saveInfo() {
+    const { email, name } = this.state;
+    localStorage.setItem('player', JSON.stringify({
+      name, assertions: 0, score: 0, gravatarEmail: email,
+    }));
   }
 
   renderInputs(email, name) {
@@ -63,7 +70,7 @@ class Home extends React.Component {
               </button>
             ) : (
               <Link data-testid="btn-play" to="/play" className="link-play">
-                <button type="button" className="button-login">Jogar</button>
+                <button onClick={this.saveInfo()} type="button" className="button-login">Jogar</button>
               </Link>
             )}
             <Link className="button-settings" data-testid="btn-settings" to="/settings">

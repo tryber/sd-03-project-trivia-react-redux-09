@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { getQuestionsAction, computeNewScore } from '../redux/actions/index';
+import { getQuestionsAction, computeScore } from '../redux/actions/index';
 import tokenApi from '../service/fetchToken';
 import Answers from './Answers';
 import Question from './Question';
@@ -15,11 +15,11 @@ function renderHeader() {
       <img src="" data-testid="header-profile-picture" alt="gravatar" />
       <span className="txt-header">
         Jogador:
-        <span data-testid="header-player-name">Rodrigo</span>
+        <span data-testid="header-player-name">{JSON.parse(localStorage.getItem('player')).name}</span>
       </span>
       <span className="txt-header">
         Pontos:
-        <span data-testid="header-score">20</span>
+        <span data-testid="header-score">{JSON.parse(localStorage.getItem('player')).score}</span>
       </span>
     </section>
   );
@@ -47,7 +47,6 @@ class Play extends React.Component {
     const timer = () => setInterval(() => this.setState((prevState) => {
       switch (true) {
         case prevState.counter > 0 && !prevState.answered:
-          console.log(prevState);
           return ({ counter: prevState.counter - 1 });
         case !prevState.answered:
           this.setState({ answered: true });
@@ -71,20 +70,29 @@ class Play extends React.Component {
   }
 
   nextTurn() {
+    const { props: { questions }, state: { turn } } = this;
+    if (turn === questions.length - 1) return this.endgame();
     this.setState((prevState) => ({
       turn: prevState.turn + 1,
       answered: false,
       counter: 30,
-      /*       paused: false, */
     }));
-    this.countDownTimer();
+    return this.countDownTimer();
+  }
+
+  endgame() {
+    const { computeRank, history } = this.props;
+    const { name, score, gravatarEmail } = JSON.parse(localStorage.getItem('player'));
+    computeRank(name, score, gravatarEmail);
+    localStorage.removeItem('player');
+    history.push('/feedback');
   }
 
   hitAnswer(answer) {
-    console.log('-----HIT____ME----- DAAAA DDAAA');
     this.setState({ answered: true });
-    const { state: { counter, turn }, props: { hitCorrectAnswer, questions } } = this;
-    const dificulty = (dif) => {
+    if (answer !== 'correct') return false;
+    const { state: { counter, turn }, props: { questions } } = this;
+    const difficulty = (dif) => {
       switch (true) {
         case dif === 'hard':
           return 3;
@@ -93,11 +101,16 @@ class Play extends React.Component {
         case dif === 'easy':
           return 1;
         default:
-          return 1;
+          return -10;
       }
     };
-    const points = 10 + (counter * dificulty(questions[turn].dificulty));
-    return answer === 'correct' && hitCorrectAnswer(points);
+    const questionLevel = questions[turn].difficulty;
+    const points = 10 + (counter * difficulty(questionLevel));
+    const player = localStorage.getItem('player');
+    const saveScore = JSON.parse(player);
+    saveScore.assertions = Number(saveScore.assertions) + 1;
+    saveScore.score += points;
+    return localStorage.setItem('player', JSON.stringify(saveScore));
   }
 
   render() {
@@ -112,13 +125,13 @@ class Play extends React.Component {
               correct={questions[turn].correct_answer}
               incorrects={questions[turn].incorrect_answers}
               nextTurn={this.nextTurn}
-              hitAnswer={() => this.hitAnswer}
+              hitAnswer={this.hitAnswer}
               turn={turn}
               answered={answered}
               countDownTimer={this.countDownTimer}
             />
           </section>
-          <Footer nextTurn={this.nextTurn} counter={counter} />
+          <Footer answered={answered} nextTurn={this.nextTurn} counter={counter} />
         </div>
       </center>
     ) : <h1>Loading</h1>;
@@ -131,7 +144,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  hitCorrectAnswer: (points) => dispatch(computeNewScore(points)),
+  computeRank: (player, points, picture) => dispatch(computeScore(player, points, picture)),
   fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
 });
 
@@ -139,7 +152,8 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Play);
 
 Play.propTypes = {
-  hitCorrectAnswer: propTypes.func.isRequired,
+  computeRank: propTypes.func.isRequired,
   questions: propTypes.arrayOf(propTypes.object).isRequired,
   fetchQuestions: propTypes.func.isRequired,
+  history: propTypes.shape({ push: propTypes.func.isRequired }).isRequired,
 };

@@ -26,7 +26,7 @@ class Answers extends React.Component {
     const { answered, hitAnswer } = this.props;
     return (
       <button
-        onClick={hitAnswer('correct')}
+        onClick={() => hitAnswer('correct')}
         data-testid="correct-answer"
         type="button"
         key={answer}
@@ -43,7 +43,7 @@ class Answers extends React.Component {
     return (
       <button
         key={answerWrong}
-        onClick={hitAnswer('wrong')}
+        onClick={() => hitAnswer('wrong')}
         data-testid={`wrong-answer-${incorrects.indexOf((answer) => answer === answerWrong)}`}
         type="button"
         className={answered ? 'red-border' : 'none'}

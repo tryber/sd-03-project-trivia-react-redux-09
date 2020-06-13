@@ -56,5 +56,4 @@ Ranking.propTypes = {
   history: propTypes.shape({
     push: propTypes.func.isRequired,
   }).isRequired,
-  ranking: propTypes.arrayOf(propTypes.object).isRequired,
 };

@@ -22,9 +22,7 @@ class Answers extends React.Component {
   }
 
   renderAnswers() {
-    const {
-      answered, hitAnswer, incorrects, correct,
-    } = this.props;
+    const { hitAnswer, incorrects, correct, answered } = this.props;
     const { answers } = this.state;
     const correctAnswer = (answer) => (
       <button

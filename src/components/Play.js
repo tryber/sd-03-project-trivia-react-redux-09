@@ -44,14 +44,16 @@ class Play extends React.Component {
   }
 
   countDownTimer() {
-    const { counter } = this.state;
+    const { counter, answered } = this.state;
     const timer = () => setInterval(() => this.setState((prevState) => {
       switch (true) {
-        case counter > 0 && !prevState.answered:
+        case prevState.counter > 0 && !prevState.answered:
+          console.log(prevState);
           return ({ counter: prevState.counter - 1 });
-        case counter === 0:
-          clearInterval(timer);
-          return this.hitAnswer('wrong');
+        case !prevState.answered:
+          this.setState({ answered: true });
+          this.hitAnswer('wrong');
+          return clearInterval(timer);
         default:
           clearInterval(timer);
           return prevState;

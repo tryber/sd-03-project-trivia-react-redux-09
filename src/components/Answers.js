@@ -76,12 +76,6 @@ class Answers extends React.Component {
 export default connect()(Answers);
 
 Answers.propTypes = {
-  question: propTypes.shape({
-    category: propTypes.string,
-    question: propTypes.string,
-    correct_answer: propTypes.string.isRequired,
-    incorrect_answers: propTypes.arrayOf(propTypes.string).isRequired,
-  }).isRequired,
   answered: propTypes.bool.isRequired,
   hitAnswer: propTypes.func.isRequired,
   incorrects: propTypes.arrayOf(propTypes.string).isRequired,

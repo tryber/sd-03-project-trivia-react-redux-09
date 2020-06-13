@@ -1,11 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import './style-play.css';
-import CountDown from './CountDown';
 
 const Footer = ({ counter, nextTurn }) => (
   <section className="footer">
-    <CountDown time={counter} />
+    <h4>{counter}</h4>
     <button
       type="button"
       className="button-next"

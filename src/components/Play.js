@@ -44,7 +44,6 @@ class Play extends React.Component {
   }
 
   countDownTimer() {
-    const { counter, answered } = this.state;
     const timer = () => setInterval(() => this.setState((prevState) => {
       switch (true) {
         case prevState.counter > 0 && !prevState.answered:

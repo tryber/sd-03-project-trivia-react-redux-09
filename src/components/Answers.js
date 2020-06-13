@@ -12,6 +12,7 @@ function shuffleArray(array) {
   }
   return arrayToSuffle;
 }
+
 class Answers extends React.Component {
   constructor(props) {
     super(props);
@@ -21,10 +22,9 @@ class Answers extends React.Component {
     this.renderAnswers = this.renderAnswers.bind(this);
   }
 
-  renderAnswers() {
-    const { hitAnswer, incorrects, correct, answered } = this.props;
-    const { answers } = this.state;
-    const correctAnswer = (answer) => (
+  correctAnswer(answer) {
+    const { answered, hitAnswer } = this.props;
+    return (
       <button
         onClick={hitAnswer('correct')}
         data-testid="correct-answer"
@@ -36,7 +36,11 @@ class Answers extends React.Component {
         {answer}
       </button>
     );
-    const wrongAnswer = (answerWrong) => (
+  }
+
+  wrongAnswer(answerWrong) {
+    const { answered, hitAnswer, incorrects } = this.props;
+    return (
       <button
         key={answerWrong}
         onClick={hitAnswer('wrong')}
@@ -48,8 +52,13 @@ class Answers extends React.Component {
         {answerWrong}
       </button>
     );
+  }
+
+  renderAnswers() {
+    const { correct } = this.props;
+    const { answers } = this.state;
     const answersArray = answers.map(
-      (answer) => (answer === correct ? correctAnswer(answer) : wrongAnswer(answer)),
+      (answer) => (answer === correct ? this.correctAnswer(answer) : this.wrongAnswer(answer)),
     );
     return answersArray;
   }

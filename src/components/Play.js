@@ -6,7 +6,7 @@ import tokenApi from '../service/fetchToken';
 import Answers from './Answers';
 import Question from './Question';
 import Footer from './Footer';
-import PlayerHeader from './PlayerHeader'
+import PlayerHeader from './PlayerHeader';
 import '../App.css';
 import './style-play.css';
 

@@ -4,6 +4,8 @@ import Home from './components/Home';
 import Play from './components/Play';
 import Settings from './components/Settings';
 import FeedBack from './components/FeedBack';
+import Ranking from './components/Ranking';
+
 
 import './App.css';
 
@@ -16,6 +18,7 @@ export default function App() {
           <Route path="/play" component={Play} />
           <Route path="/settings" component={Settings} />
           <Route path="/feedback" component={FeedBack} />
+          <Route path="/ranking" component={Ranking} />
         </Switch>
       </div>
     </Router>

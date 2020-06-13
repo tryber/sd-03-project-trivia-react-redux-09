@@ -22,6 +22,7 @@ class Play extends React.Component {
     this.startGame = this.startGame.bind(this);
     this.hitAnswer = this.hitAnswer.bind(this);
     this.countDownTimer = this.countDownTimer.bind(this);
+    this.endgame = this.endgame.bind(this);
   }
 
   componentDidMount() {
@@ -69,8 +70,13 @@ class Play extends React.Component {
     const { computeRank, history } = this.props;
     const { name, score, gravatarEmail } = JSON.parse(localStorage.getItem('player'));
     computeRank(name, score, gravatarEmail);
-    localStorage.removeItem('player');
+    const newRanking = { name, score, gravatarEmail };
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
     history.push('/feedback');
+    if (ranking)ranking.push(newRanking);
+    return ranking
+      ? localStorage.setItem('ranking', JSON.stringify(ranking))
+      : localStorage.setItem('ranking', JSON.stringify([newRanking]));
   }
 
   hitAnswer(answer) {

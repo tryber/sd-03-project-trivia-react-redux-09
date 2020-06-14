@@ -29,7 +29,7 @@ const questionsReducer = (state = INITIAL_STATE, action) => {
         error: action.error,
       };
     case CLEAR_QUESTIONS:
-      return { isFetching: false, questions: [] };
+      return { ...state, isFetching: false, questions: [] };
     default:
       return state;
   }

@@ -10,9 +10,9 @@ const sortByScore = (ranking) => {
   return ranking.sort((a, b) => {
     switch (true) {
       case a.score > b.score:
-        return 1;
-      case a.score < b.score:
         return -1;
+      case a.score < b.score:
+        return 1;
       default:
         return 0;
     }

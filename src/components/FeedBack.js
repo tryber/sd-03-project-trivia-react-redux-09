@@ -6,7 +6,7 @@ export const refreshScoreToPlay = () => {
   const { player } = JSON.parse(localStorage.state);
   player.score = 0;
   player.assertions = 0;
-  localStorage.state = player;
+  localStorage.state = JSON.stringify({ player });
 };
 
 const feedbackText = (assertions) => {

@@ -29,6 +29,11 @@ class Play extends React.Component {
     this.startGame();
   }
 
+  componentWillUnmount() {
+    const { cleanQuestions } = this.props;
+    cleanQuestions();
+  }
+
   countDownTimer() {
     const timer = () => setInterval(() => this.setState((prevState) => {
       switch (true) {
@@ -67,17 +72,16 @@ class Play extends React.Component {
   }
 
   endgame() {
-    const { computeRank, history, cleanQuestions } = this.props;
+    const { computeRank, history } = this.props;
     const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
     computeRank(name, score, gravatarEmail);
-    const newRanking = { name, score, gravatarEmail };
+    const newRanking = [{ name, score, gravatarEmail }];
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     if (ranking)ranking.push(newRanking);
     history.push('/feedback');
-    cleanQuestions();
     return ranking
       ? localStorage.setItem('ranking', JSON.stringify(ranking))
-      : localStorage.setItem('ranking', JSON.stringify([newRanking]));
+      : localStorage.setItem('ranking', JSON.stringify(newRanking));
   }
 
   hitAnswer(answer) {

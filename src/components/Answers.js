@@ -22,6 +22,10 @@ class Answers extends React.Component {
     this.renderAnswers = this.renderAnswers.bind(this);
   }
 
+  componentWillUnmount() {
+    this.setState({ answers: [] });
+  }
+
   correctAnswer(answer) {
     const { answered, hitAnswer } = this.props;
     return (

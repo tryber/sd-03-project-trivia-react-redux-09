@@ -30,7 +30,7 @@ class Answers extends React.Component {
         data-testid="correct-answer"
         type="button"
         key={answer}
-        className={answered ? 'green-border' : 'none'}
+        className={answered ? 'green-border' : ''}
         disabled={answered}
       >
         {answer}
@@ -40,13 +40,15 @@ class Answers extends React.Component {
 
   wrongAnswer(answerWrong) {
     const { answered, hitAnswer, incorrects } = this.props;
+    const index = incorrects.indexOf(answerWrong);
+    console.log(index);
     return (
       <button
         key={answerWrong}
         onClick={() => hitAnswer('wrong')}
-        data-testid={`wrong-answer-${incorrects.indexOf((answer) => answer === answerWrong)}`}
+        data-testid={`wrong-answer-${index}`}
         type="button"
-        className={answered ? 'red-border' : 'none'}
+        className={answered ? 'red-border' : ''}
         disabled={answered}
       >
         {answerWrong}

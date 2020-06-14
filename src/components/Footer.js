@@ -5,16 +5,17 @@ import './style-play.css';
 const Footer = ({ counter, nextTurn, answered }) => (
   <section className="footer">
     <h4>{counter}</h4>
-    <button
-      type="button"
-      className="button-next"
-      data-testid="btn-next"
-      onClick={() => nextTurn()}
-      display={answered ? 'flex' : 'none'}
-/*       disabled={!answered} */
-    >
-      PRÓXIMA
-    </button>
+    {answered && (
+      <button
+        type="button"
+        className="button-next"
+        data-testid="btn-next"
+        onClick={() => nextTurn()}
+        disabled={!answered}
+      >
+        PRÓXIMA
+      </button>
+    )}
   </section>
 );
 

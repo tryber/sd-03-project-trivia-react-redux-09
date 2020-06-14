@@ -41,7 +41,6 @@ class Answers extends React.Component {
   wrongAnswer(answerWrong) {
     const { answered, hitAnswer, incorrects } = this.props;
     const index = incorrects.indexOf(answerWrong);
-    console.log(index);
     return (
       <button
         key={answerWrong}

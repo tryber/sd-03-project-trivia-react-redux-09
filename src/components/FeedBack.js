@@ -8,7 +8,13 @@ const FeedBack = (props) => {
     const text = assertions < 3 ? 'Podia ser melhor...' : 'Mandou bem!';
     return <p data-testid="feedback-text">{text}</p>;
   };
-  const redirectTo = (path) => props.history.push(path);
+  const redirectTo = (path) => {
+    const refreshScore = JSON.parse(localStorage.player);
+    refreshScore.score = 0;
+    refreshScore.assertions = 0;
+    localStorage.player = refreshScore;
+    props.history.push(path);
+  };
   return (
     <div>
       <h1>FeedBack</h1>

@@ -11,7 +11,6 @@ const Footer = ({ counter, nextTurn, answered }) => (
         className="button-next"
         data-testid="btn-next"
         onClick={() => nextTurn()}
-        disabled={!answered}
       >
         PRÓXIMA
       </button>

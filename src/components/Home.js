@@ -23,8 +23,10 @@ class Home extends React.Component {
 
   saveInfo() {
     const { email, name } = this.state;
-    localStorage.setItem('player', JSON.stringify({
-      name, assertions: 0, score: 0, gravatarEmail: email,
+    localStorage.setItem('state', JSON.stringify({
+      player: {
+        name, assertions: 0, score: 0, gravatarEmail: email,
+      },
     }));
   }
 

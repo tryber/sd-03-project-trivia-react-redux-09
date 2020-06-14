@@ -68,12 +68,12 @@ class Play extends React.Component {
 
   endgame() {
     const { computeRank, history } = this.props;
-    const { name, score, gravatarEmail } = JSON.parse(localStorage.getItem('player'));
+    const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
     computeRank(name, score, gravatarEmail);
     const newRanking = { name, score, gravatarEmail };
     const ranking = JSON.parse(localStorage.getItem('ranking'));
-    history.push('/feedback');
     if (ranking)ranking.push(newRanking);
+    history.push('/feedback');
     return ranking
       ? localStorage.setItem('ranking', JSON.stringify(ranking))
       : localStorage.setItem('ranking', JSON.stringify([newRanking]));
@@ -97,11 +97,10 @@ class Play extends React.Component {
     };
     const questionLevel = questions[turn].difficulty;
     const points = 10 + (counter * difficulty(questionLevel));
-    const player = localStorage.getItem('player');
-    const saveScore = JSON.parse(player);
-    saveScore.assertions = Number(saveScore.assertions) + 1;
-    saveScore.score += points;
-    return localStorage.setItem('player', JSON.stringify(saveScore));
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    player.assertions = Number(player.assertions) + 1;
+    player.score += points;
+    return localStorage.setItem('state', JSON.stringify({ player: { player } }));
   }
 
   render() {

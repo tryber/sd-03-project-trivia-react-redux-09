@@ -3,7 +3,7 @@ import React from 'react';
 const CryptoJS = require('crypto-js');
 
 const PlayerHeader = () => {
-  const { name, score, gravatarEmail } = JSON.parse(localStorage.getItem('player'));
+  const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
   const hash = CryptoJS.MD5(gravatarEmail);
   return (
     <section className="header">

@@ -15,7 +15,7 @@ const feedbackText = (assertions) => {
 };
 
 const FeedBack = (props) => {
-  const { assertions, score } = JSON.parse(localStorage.getItem('player'));
+  const { player: { assertions, score } } = JSON.parse(localStorage.getItem('state'));
   feedbackText(assertions);
   const redirectTo = (path) => {
     if (path === '/play') refreshScoreToPlay();

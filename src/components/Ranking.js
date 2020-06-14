@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { refreshScoreToPlay } from './FeedBack';
 
 const CryptoJS = require('crypto-js');
 
@@ -19,7 +20,10 @@ const sortByScore = (ranking) => {
 };
 
 const Ranking = ({ history }) => {
-  const redirectToHome = () => history.push('/');
+  const redirectToHome = () => {
+    refreshScoreToPlay();
+    history.push('/');
+  };
   const ranking = JSON.parse(localStorage.getItem('ranking'));
   return (
     <div>

@@ -30,7 +30,7 @@ const Ranking = ({ history }) => {
           {sortByScore(ranking).map((score, index) => {
             const hash = CryptoJS.MD5(score.picture);
             return (
-              <tr key={`${index}º - ${score.name}`}>
+              <tr key={Math.random()}>
                 <td>
                   <img
                     src={`https://www.gravatar.com/avatar/${hash}`}

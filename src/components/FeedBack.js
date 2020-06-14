@@ -9,14 +9,14 @@ export const refreshScoreToPlay = () => {
   localStorage.player = refreshScore;
 };
 
+const feedbackText = (assertions) => {
+  const text = assertions < 3 ? 'Podia ser melhor...' : 'Mandou bem!';
+  return <p data-testid="feedback-text">{text}</p>;
+};
 
 const FeedBack = (props) => {
   const { assertions, score } = JSON.parse(localStorage.getItem('player'));
-  const feedbackText = () => {
-    const text = assertions < 3 ? 'Podia ser melhor...' : 'Mandou bem!';
-    return <p data-testid="feedback-text">{text}</p>;
-  };
-
+  feedbackText(assertions);
   const redirectTo = (path) => {
     if (path === '/play') refreshScoreToPlay();
     props.history.push(path);

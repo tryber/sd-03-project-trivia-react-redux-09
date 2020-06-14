@@ -3,10 +3,10 @@ import propTypes from 'prop-types';
 import PlayerHeader from './PlayerHeader';
 
 export const refreshScoreToPlay = () => {
-  const refreshScore = JSON.parse(localStorage.player);
-  refreshScore.score = 0;
-  refreshScore.assertions = 0;
-  localStorage.player = refreshScore;
+  const { player } = JSON.parse(localStorage.state);
+  player.score = 0;
+  player.assertions = 0;
+  localStorage.state = player;
 };
 
 const feedbackText = (assertions) => {

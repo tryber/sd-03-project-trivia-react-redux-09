@@ -42,3 +42,7 @@ export const computeScore = (player, score, picture) => ({
   type: COMPUTE_GAME,
   payload: { player, score, picture },
 });
+
+export const CLEAR_QUESTIONS = 'CLEAR_QUESTIONS';
+
+export const clearQuestions = () => ({ type: CLEAR_QUESTIONS });

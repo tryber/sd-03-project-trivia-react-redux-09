@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { getQuestionsAction, computeScore } from '../redux/actions/index';
+import { getQuestionsAction, computeScore, clearQuestions } from '../redux/actions/index';
 import tokenApi from '../service/fetchToken';
 import Answers from './Answers';
 import Question from './Question';
@@ -67,13 +67,14 @@ class Play extends React.Component {
   }
 
   endgame() {
-    const { computeRank, history } = this.props;
+    const { computeRank, history, cleanQuestions } = this.props;
     const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
     computeRank(name, score, gravatarEmail);
     const newRanking = { name, score, gravatarEmail };
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     if (ranking)ranking.push(newRanking);
     history.push('/feedback');
+    cleanQuestions();
     return ranking
       ? localStorage.setItem('ranking', JSON.stringify(ranking))
       : localStorage.setItem('ranking', JSON.stringify([newRanking]));
@@ -100,7 +101,7 @@ class Play extends React.Component {
     const { player } = JSON.parse(localStorage.getItem('state'));
     player.assertions = Number(player.assertions) + 1;
     player.score += points;
-    return localStorage.setItem('state', JSON.stringify({ player: { player } }));
+    return localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   render() {
@@ -136,6 +137,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   computeRank: (player, points, picture) => dispatch(computeScore(player, points, picture)),
   fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
+  cleanQuestions: () => dispatch(clearQuestions()),
 });
 
 
@@ -146,4 +148,5 @@ Play.propTypes = {
   questions: propTypes.arrayOf(propTypes.object).isRequired,
   fetchQuestions: propTypes.func.isRequired,
   history: propTypes.shape({ push: propTypes.func.isRequired }).isRequired,
+  cleanQuestions: propTypes.func.isRequired,
 };

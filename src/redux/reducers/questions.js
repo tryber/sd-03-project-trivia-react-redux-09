@@ -1,4 +1,7 @@
-import { REQUEST_API_QUESTIONS, RECEIVE_API_QUESTIONS, RECEIVE_API_QUESTIONS_ERROR } from '../actions/index';
+import {
+  REQUEST_API_QUESTIONS, RECEIVE_API_QUESTIONS,
+  RECEIVE_API_QUESTIONS_ERROR, CLEAR_QUESTIONS,
+} from '../actions/index';
 
 const INITIAL_STATE = {
   isFetching: false,
@@ -25,6 +28,8 @@ const questionsReducer = (state = INITIAL_STATE, action) => {
         isFetching: false,
         error: action.error,
       };
+    case CLEAR_QUESTIONS:
+      return { isFetching: false, questions: [] };
     default:
       return state;
   }

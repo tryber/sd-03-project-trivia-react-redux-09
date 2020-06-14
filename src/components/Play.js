@@ -73,7 +73,8 @@ class Play extends React.Component {
 
   endgame() {
     const { computeRank, history } = this.props;
-    const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
+    const playerData = JSON.parse(localStorage.getItem('state'));
+    const { player: { name, score, gravatarEmail } } = playerData;
     computeRank(name, score, gravatarEmail);
     const newRanking = [{ name, score, gravatarEmail }];
     const ranking = JSON.parse(localStorage.getItem('ranking'));

@@ -22,6 +22,7 @@ class Answers extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log('update')
     const { turn } = this.props;
     if (prevProps.turn !== turn) { this.switchAnswers(); }
   }

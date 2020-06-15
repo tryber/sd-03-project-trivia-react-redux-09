@@ -21,7 +21,6 @@ class Play extends React.Component {
     this.nextTurn = this.nextTurn.bind(this);
     this.startGame = this.startGame.bind(this);
     this.hitAnswer = this.hitAnswer.bind(this);
-    this.countDownTimer = this.countDownTimer.bind(this);
     this.endgame = this.endgame.bind(this);
   }
 
@@ -36,7 +35,7 @@ class Play extends React.Component {
 
   countDownTimer() {
     const timer = () => setInterval(() => {
-      const { counter, answered } = this.state;
+      const { counter, answered, turn } = this.state;
       switch (true) {
         case counter > 0 && !answered:
           return this.setState((prevState) => ({ counter: prevState.counter - 1 }));
@@ -44,11 +43,15 @@ class Play extends React.Component {
           this.setState({ answered: true });
           this.hitAnswer('wrong');
           return clearInterval(timer);
+        case answered:
+          console.log(counter, turn);
+          return clearInterval(timer);
         default:
           console.log(this.state);
           return clearInterval(timer);
       }
     }, 1000);
+    console.log('djfhsjkhfalsd');
     return timer;
   }
 
@@ -123,7 +126,6 @@ class Play extends React.Component {
             <Answers
               correct={questions[turn].correct_answer}
               incorrects={questions[turn].incorrect_answers}
-              nextTurn={this.nextTurn}
               hitAnswer={this.hitAnswer}
               turn={turn}
               answered={answered}

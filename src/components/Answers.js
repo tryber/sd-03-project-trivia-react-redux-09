@@ -14,11 +14,16 @@ function shuffleArray(array) {
 
 class Answers extends React.Component {
   constructor(props) {
+    const { correct, incorrects } = props;
     super(props);
     this.state = {
-      answers: [],
+      answers: shuffleArray([correct, ...incorrects]),
     };
-    this.renderAnswers = this.renderAnswers.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { turn } = this.props;
+    if (prevProps.turn !== turn) { this.switchAnswers(); }
   }
 
   componentWillUnmount() {
@@ -60,31 +65,23 @@ class Answers extends React.Component {
 
   switchAnswers() {
     const { correct, incorrects } = this.props;
-    const { answers } = this.state;
     const originalOrder = [correct, ...incorrects];
-    if (JSON.stringify(originalOrder.sort()) !== JSON.stringify(answers.sort())) {
-      this.setState({ answers: shuffleArray(originalOrder) });
-    }
-  }
-
-  renderAnswers() {
-    const { correct } = this.props;
-    const { answers } = this.state;
-    const answersArray = answers.map(
-      (answer) => (answer === correct ? this.correctAnswer(answer) : this.wrongAnswer(answer)),
-    );
-    return answersArray;
+    this.setState({
+      answers: shuffleArray(originalOrder),
+    });
   }
 
   render() {
     const {
       props: { correct },
+      state: { answers },
     } = this;
     if (!correct) return <h1>Loading</h1>;
-    this.switchAnswers();
     return (
       <div className="answers">
-        {this.renderAnswers().map((answer) => answer)}
+        {answers.map(
+          (answer) => (answer === correct ? this.correctAnswer(answer) : this.wrongAnswer(answer)),
+        )}
       </div>
     );
   }
@@ -97,4 +94,5 @@ Answers.propTypes = {
   hitAnswer: propTypes.func.isRequired,
   incorrects: propTypes.arrayOf(propTypes.string).isRequired,
   correct: propTypes.string.isRequired,
+  turn: propTypes.number.isRequired,
 };

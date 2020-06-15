@@ -66,7 +66,7 @@ class Home extends React.Component {
     ) : (
       <Link data-testid="btn-play" to="/play" className="link-play">
         <button
-          onClick={this.saveInfo()}
+          onClick={() => this.saveInfo()}
           type="button"
           className="button-login"
         >

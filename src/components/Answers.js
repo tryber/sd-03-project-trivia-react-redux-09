@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
 function shuffleArray(array) {
@@ -59,6 +58,15 @@ class Answers extends React.Component {
     );
   }
 
+  switchAnswers() {
+    const { correct, incorrects } = this.props;
+    const { answers } = this.state;
+    const originalOrder = [correct, ...incorrects];
+    if (JSON.stringify(originalOrder.sort()) !== JSON.stringify(answers.sort())) {
+      this.setState({ answers: shuffleArray(originalOrder) });
+    }
+  }
+
   renderAnswers() {
     const { correct } = this.props;
     const { answers } = this.state;
@@ -70,22 +78,19 @@ class Answers extends React.Component {
 
   render() {
     const {
-      props: { correct, incorrects },
-      state: { answers },
+      props: { correct },
     } = this;
-    const originalOrder = [correct, ...incorrects];
-    if (JSON.stringify(originalOrder.sort()) !== JSON.stringify(answers.sort())) {
-      this.setState({ answers: shuffleArray(originalOrder) });
-    }
-    return answers.length > 0 && (
+    if (!correct) return <h1>Loading</h1>;
+    this.switchAnswers();
+    return (
       <div className="answers">
-          {this.renderAnswers().map((answer) => answer)}
+        {this.renderAnswers().map((answer) => answer)}
       </div>
     );
   }
 }
 
-export default connect()(Answers);
+export default Answers;
 
 Answers.propTypes = {
   answered: propTypes.bool.isRequired,

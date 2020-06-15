@@ -57,7 +57,8 @@ class Play extends React.Component {
       .then(({ token }) => {
         localStorage.setItem('token', token);
       });
-    fetchQuestions(localStorage.getItem('token')).then(this.countDownTimer());
+    fetchQuestions(localStorage.getItem('token'))
+      .then(this.countDownTimer());
   }
 
   nextTurn() {
@@ -76,13 +77,13 @@ class Play extends React.Component {
     const playerData = JSON.parse(localStorage.getItem('state'));
     const { player: { name, score, gravatarEmail } } = playerData;
     computeRank(name, score, gravatarEmail);
-    const newRanking = [{ name, score, gravatarEmail }];
+    const newRanking = { name, score, gravatarEmail };
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     if (ranking)ranking.push(newRanking);
     history.push('/feedback');
     return ranking
       ? localStorage.setItem('ranking', JSON.stringify(ranking))
-      : localStorage.setItem('ranking', JSON.stringify(newRanking));
+      : localStorage.setItem('ranking', JSON.stringify([newRanking]));
   }
 
   hitAnswer(answer) {
@@ -111,7 +112,9 @@ class Play extends React.Component {
 
   render() {
     const { props: { questions }, state: { counter, turn, answered } } = this;
-    return questions.length > 0 ? (
+    if (questions.length <= 0) return <h1>Loading</h1>;
+    /*     this.countDownTimer(); */
+    return (
       <center>
         <div className="container-play">
           <PlayerHeader />
@@ -130,7 +133,7 @@ class Play extends React.Component {
           <Footer answered={answered} nextTurn={this.nextTurn} counter={counter} />
         </div>
       </center>
-    ) : <h1>Loading</h1>;
+    );
   }
 }
 

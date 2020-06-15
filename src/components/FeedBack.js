@@ -25,7 +25,7 @@ const FeedBack = (props) => {
     <div>
       <h1>FeedBack</h1>
       <PlayerHeader />
-      {feedbackText()}
+      {feedbackText(assertions)}
       <p data-testid="feedback-total-score">{score}</p>
       <p data-testid="feedback-total-question">{assertions}</p>
       <button

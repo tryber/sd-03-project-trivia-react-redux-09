@@ -2,13 +2,14 @@ import React from 'react';
 
 const CryptoJS = require('crypto-js');
 
-export const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
 const PlayerHeader = () => {
+  const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
   const hash = CryptoJS.MD5(gravatarEmail);
   return (
     <section className="header">
       <img
         src={`https://www.gravatar.com/avatar/${hash}`}
+        default="https://www.gravatar.com/avatar/2d3bf5b67282f5f466e503d7022abcf3"
         data-testid="header-profile-picture"
         alt="gravatar"
       />

@@ -17,25 +17,25 @@ const sortByScore = (ranking) => ranking.sort((a, b) => {
 });
 
 const renderRanking = (ranking) => (
-    <section className="container-ranking">
-      <tbody>
-        {sortByScore(ranking).map((player, index) => {
-          const hash = CryptoJS.MD5(player.picture);
-          return (
-            <tr key={Math.random()}>
-              <td>
-                <img
-                  src={`https://www.gravatar.com/avatar/${hash}`}
-                  alt="gravatar"
-                />
-              </td>
-              <td data-testid={`player-name-${index}`}>{player.name}</td>
-              <td data-testid={`player-score-${index}`}>{player.score}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </section>
+  <section className="container-ranking">
+    <tbody>
+      {sortByScore(ranking).map((player, index) => {
+        const hash = CryptoJS.MD5(player.picture);
+        return (
+          <tr key={Math.random()}>
+            <td>
+              <img
+                src={`https://www.gravatar.com/avatar/${hash}`}
+                alt="gravatar"
+              />
+            </td>
+            <td data-testid={`player-name-${index}`}>{player.name}</td>
+            <td data-testid={`player-score-${index}`}>{player.score}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </section>
 );
 
 const Ranking = ({ history }) => {

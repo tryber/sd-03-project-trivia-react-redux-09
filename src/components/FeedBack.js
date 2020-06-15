@@ -12,7 +12,6 @@ const FeedBack = (props) => {
   const { player: { assertions, score } } = JSON.parse(localStorage.getItem('state'));
   feedbackText(assertions);
   const redirectTo = (path) => props.history.push(path);
-
   return (
     <center>
       <div className="container-feedback">
@@ -22,7 +21,7 @@ const FeedBack = (props) => {
         <section className="body-feed">
           {feedbackText(assertions)}
           <p className="subtexto">
-            Você acertou <span data-testid="feedback-total-question">{assertions}</span> questões. <br />
+            Você acertou <span data-testid="feedback-total-question">{assertions}</span><br />
             Um total de <span data-testid="feedback-total-score">{score}</span> pontos.
           </p>
         </section>
@@ -31,18 +30,13 @@ const FeedBack = (props) => {
           type="button"
           data-testid="btn-play-again"
           className="btn-voltar"
-        >
-          Jogar Novamente
-        </button>
+        > Jogar Novamente </button>
         <button
           onClick={() => redirectTo('/ranking')}
           type="button"
           data-testid="btn-ranking"
           className="btn-ranking"
-        >
-          Ver Ranking
-        </button>
-
+        > Ver Ranking </button>
       </div>
     </center>
   );

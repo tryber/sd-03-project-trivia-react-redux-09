@@ -27,7 +27,8 @@ h2 {
   display: block;
   font-size: 14px;
   margin: 0 0 20px;
-  outline: none;
+
+  /*   outline: none; */
   padding: 10px 15px;
   width: 100%;
 }

@@ -1,14 +1,7 @@
 import React from 'react';
+/* import propTypes from 'prop-types'; */
 import { Link } from 'react-router-dom';
-import tokenApi from '../service/fetchs';
 import './style.css';
-
-function fetchToken() {
-  tokenApi()
-    .then(({ token }) => {
-      localStorage.setItem('token', token);
-    });
-}
 
 class Home extends React.Component {
   constructor(props) {
@@ -18,7 +11,7 @@ class Home extends React.Component {
       name: '',
       email: '',
     };
-
+    this.saveInfo = this.saveInfo.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -28,38 +21,73 @@ class Home extends React.Component {
     });
   }
 
+  saveInfo() {
+    const { email, name } = this.state;
+    localStorage.setItem('state', JSON.stringify({
+      player: {
+        name, assertions: 0, score: 0, gravatarEmail: email,
+      },
+    }));
+  }
+
+  renderInputs(email, name) {
+    return (
+      <div>
+        <input
+          data-testid="input-gravatar-email"
+          type="email"
+          value={email}
+          className="input-login"
+          onChange={(event) => this.handleChange(event, 'email')}
+          placeholder="E-mail"
+        />
+        <input
+          data-testid="input-player-name"
+          className="input-login"
+          type="text"
+          value={name}
+          onChange={(event) => this.handleChange(event, 'name')}
+          placeholder="Name"
+        />
+      </div>
+    );
+  }
+
+  renderPlayButton(name, email) {
+    return name === '' || email === '' ? (
+      <button
+        disabled
+        data-testid="btn-play"
+        className="button-disabled"
+        type="button"
+      >
+        Jogar
+      </button>
+    ) : (
+      <Link data-testid="btn-play" to="/play" className="link-play">
+        <button
+          onClick={() => this.saveInfo()}
+          type="button"
+          className="button-login"
+        >
+          Jogar
+        </button>
+      </Link>
+    );
+  }
+
   render() {
+    const { email, name } = this.state;
     return (
       <div>
         <section>
           <form className="loginbox">
             <h2>Trivia</h2>
-            <input
-              data-testid="input-gravatar-email"
-              className="input-login"
-              type="email"
-              value={this.state.email}
-              onChange={(event) => this.handleChange(event, 'email')}
-              placeholder="E-mail"
-            />
-            <input
-              data-testid="input-player-name"
-              className="input-login"
-              type="text"
-              value={this.state.name}
-              onChange={(event) => this.handleChange(event, 'name')}
-              placeholder="Nome"
-            />
-            {
-              this.state.name === '' || this.state.email === ''
-                ? <button disabled className="button-disabled" data-testid="btn-play" type="button">Jogar</button>
-                : (
-                  <Link onClick={fetchToken()} data-testid="btn-play" type="button" className="link-play" to="/play">
-                    <button className="button-login">Jogar</button>
-                  </Link>
-                )
-            } <br /><br />
-            <Link type="button" className="button-settings" data-testid="btn-settings" to="/settings">Settings</Link>
+            {this.renderInputs(email, name)}
+            {this.renderPlayButton(name, email)}
+            <Link className="button-settings" data-testid="btn-settings" to="/settings">
+              Settings
+            </Link>
           </form>
         </section>
       </div>

@@ -5,7 +5,7 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  margin-top: 10%;
+  margin-top: 5%;
   min-height: 500px;
   padding: 20px;
   width: 600px;
@@ -26,7 +26,7 @@
 
 .txt-header {
   color: rgb(60, 40, 107);
-  font-weight: bold;
+  font-weight: 900;
   letter-spacing: 1px;
   margin-top: 25px;
   padding-right: 15px;
@@ -69,7 +69,6 @@
 
 .answers button {
   background-color: white;
-  border: 1px solid #bdb2be;
   font-size: 16px;
   margin-left: 20px;
   margin-top: 30px;

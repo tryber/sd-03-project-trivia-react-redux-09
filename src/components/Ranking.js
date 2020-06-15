@@ -33,8 +33,8 @@ const renderRanking = (ranking) => (
         </tr>
       );
     })}
-  </tbody>;
-)
+  </tbody>
+);
 
 const Ranking = ({ history }) => {
   const redirectToHome = () => {
@@ -45,7 +45,7 @@ const Ranking = ({ history }) => {
   return (
     <div>
       <h1 data-testid="ranking-title">Ranking</h1>
-  <table>{renderRanking(ranking)}</table>
+      <table>{renderRanking(ranking)}</table>
       <button
         data-testid="btn-go-home"
         type="button"

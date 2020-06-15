@@ -14,10 +14,16 @@ function shuffleArray(array) {
 
 class Answers extends React.Component {
   constructor(props) {
+    const { correct, incorrects } = props;
     super(props);
     this.state = {
-      answers: [],
+      answers: shuffleArray([correct, ...incorrects]),
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { turn } = this.props;
+    if (prevProps.turn !== turn) { this.switchAnswers(); }
   }
 
   componentWillUnmount() {
@@ -59,13 +65,10 @@ class Answers extends React.Component {
 
   switchAnswers() {
     const { correct, incorrects } = this.props;
-    const { answers } = this.state;
     const originalOrder = [correct, ...incorrects];
-    const aux = [...answers];
-    if (JSON.stringify(originalOrder.sort()) !== JSON.stringify(aux.sort())) {
-      console.log('entrando no if');
-      this.setState({ answers: shuffleArray(originalOrder) });
-    }
+    this.setState({
+      answers: shuffleArray(originalOrder),
+    });
   }
 
   render() {
@@ -74,7 +77,6 @@ class Answers extends React.Component {
       state: { answers },
     } = this;
     if (!correct) return <h1>Loading</h1>;
-    this.switchAnswers();
     return (
       <div className="answers">
         {answers.map(
@@ -92,4 +94,5 @@ Answers.propTypes = {
   hitAnswer: propTypes.func.isRequired,
   incorrects: propTypes.arrayOf(propTypes.string).isRequired,
   correct: propTypes.string.isRequired,
+  turn: propTypes.number.isRequired,
 };

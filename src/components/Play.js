@@ -40,7 +40,7 @@ class Play extends React.Component {
       switch (true) {
         case counter > 0 && !answered:
           return this.setState((prevState) => ({ counter: prevState.counter - 1 }));
-        case !answered:
+        case !answered && counter === 0:
           this.setState({ answered: true });
           this.hitAnswer('wrong');
           return clearInterval(timer);

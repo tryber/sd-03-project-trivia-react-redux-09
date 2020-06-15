@@ -18,7 +18,7 @@ const sortByScore = (ranking) => ranking.sort((a, b) => {
 const renderRanking = (ranking) => (
   <tbody>
     {sortByScore(ranking).map((player, index) => {
-      const hash = CryptoJS.MD5(player.picture);
+      const hash = CryptoJS.MD5(player.gravatarEmail);
       return (
         <tr key={Math.random()}>
           <td>

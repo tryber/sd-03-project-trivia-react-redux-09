@@ -1,6 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './style-ranking.css';
 
 const CryptoJS = require('crypto-js');
 
@@ -16,23 +17,25 @@ const sortByScore = (ranking) => ranking.sort((a, b) => {
 });
 
 const renderRanking = (ranking) => (
-  <tbody>
-    {sortByScore(ranking).map((player, index) => {
-      const hash = CryptoJS.MD5(player.picture);
-      return (
-        <tr key={Math.random()}>
-          <td>
-            <img
-              src={`https://www.gravatar.com/avatar/${hash}`}
-              alt="gravatar"
-            />
-          </td>
-          <td data-testid={`player-name-${index}`}>{player.name}</td>
-          <td data-testid={`player-score-${index}`}>{player.score}</td>
-        </tr>
-      );
-    })}
-  </tbody>
+    <section className="container-ranking">
+      <tbody>
+        {sortByScore(ranking).map((player, index) => {
+          const hash = CryptoJS.MD5(player.picture);
+          return (
+            <tr key={Math.random()}>
+              <td>
+                <img
+                  src={`https://www.gravatar.com/avatar/${hash}`}
+                  alt="gravatar"
+                />
+              </td>
+              <td data-testid={`player-name-${index}`}>{player.name}</td>
+              <td data-testid={`player-score-${index}`}>{player.score}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </section>
 );
 
 const Ranking = ({ history }) => {
@@ -40,15 +43,19 @@ const Ranking = ({ history }) => {
   const ranking = JSON.parse(localStorage.getItem('ranking'));
   return (
     <div>
-      <h1 data-testid="ranking-title">Ranking</h1>
-      <table>{renderRanking(ranking)}</table>
-      <button
-        data-testid="btn-go-home"
-        type="button"
-        onClick={() => redirectToHome()}
-      >
-        Início
-      </button>
+      <h1 data-testid="ranking-title" className="title-ranking">Ranking</h1>
+      <center>
+        <table>{renderRanking(ranking)}
+          <button
+            data-testid="btn-go-home"
+            type="button"
+            className="btn-inicio"
+            onClick={() => redirectToHome()}
+          >
+            Início
+          </button>
+        </table>
+      </center>
     </div>
   );
 };

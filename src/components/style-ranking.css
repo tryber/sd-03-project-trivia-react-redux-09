@@ -1,0 +1,30 @@
+.container-ranking {
+  align-content: flex-start;
+  align-items: center;
+  background-color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  margin-top: 5%;
+  min-height: 350px;
+  padding: 20px;
+  width: 500px;
+}
+
+.title-ranking {
+  color: white;
+}
+
+.btn-inicio {
+  background: #369cb8;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 10px 15px;
+  width: 100%;
+}
+
+.btn-inicio:hover {
+  background-color: #106177;
+}

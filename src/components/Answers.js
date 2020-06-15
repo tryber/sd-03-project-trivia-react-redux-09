@@ -18,7 +18,6 @@ class Answers extends React.Component {
     this.state = {
       answers: [],
     };
-    this.renderAnswers = this.renderAnswers.bind(this);
   }
 
   componentWillUnmount() {
@@ -62,29 +61,25 @@ class Answers extends React.Component {
     const { correct, incorrects } = this.props;
     const { answers } = this.state;
     const originalOrder = [correct, ...incorrects];
-    if (JSON.stringify(originalOrder.sort()) !== JSON.stringify(answers.sort())) {
+    const aux = [...answers];
+    if (JSON.stringify(originalOrder.sort()) !== JSON.stringify(aux.sort())) {
+      console.log('entrando no if');
       this.setState({ answers: shuffleArray(originalOrder) });
     }
-  }
-
-  renderAnswers() {
-    const { correct } = this.props;
-    const { answers } = this.state;
-    const answersArray = answers.map(
-      (answer) => (answer === correct ? this.correctAnswer(answer) : this.wrongAnswer(answer)),
-    );
-    return answersArray;
   }
 
   render() {
     const {
       props: { correct },
+      state: { answers },
     } = this;
     if (!correct) return <h1>Loading</h1>;
     this.switchAnswers();
     return (
       <div className="answers">
-        {this.renderAnswers().map((answer) => answer)}
+        {answers.map(
+          (answer) => (answer === correct ? this.correctAnswer(answer) : this.wrongAnswer(answer)),
+        )}
       </div>
     );
   }

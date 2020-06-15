@@ -27,6 +27,7 @@ class Play extends React.Component {
 
   componentDidMount() {
     this.startGame();
+    setInterval(() => this.ticker(), 1000);
   }
 
   componentWillUnmount() {
@@ -35,20 +36,27 @@ class Play extends React.Component {
   }
 
   countDownTimer() {
-    const timer = () => setInterval(() => this.setState((prevState) => {
+    const timer = () => setInterval(() => {
+      const { counter, answered } = this.state;
       switch (true) {
-        case prevState.counter > 0 && !prevState.answered:
-          return ({ counter: prevState.counter - 1 });
-        case !prevState.answered:
+        case counter > 0 && !answered:
+          return this.setState((prevState) => ({ counter: prevState.counter - 1 }));
+        case !answered:
           this.setState({ answered: true });
           this.hitAnswer('wrong');
           return clearInterval(timer);
         default:
-          clearInterval(timer);
-          return prevState;
+          console.log(this.state);
+          return clearInterval(timer);
       }
-    }), 1000);
+    }, 1000);
     return timer;
+  }
+
+  ticker() {
+    this.setState((prevState) => ({
+      counter: prevState.counter - 1,
+    }));
   }
 
   startGame() {

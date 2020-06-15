@@ -29,7 +29,7 @@ const FeedBack = (props) => {
       <p data-testid="feedback-total-score">{score}</p>
       <p data-testid="feedback-total-question">{assertions}</p>
       <button
-        onClick={() => redirectTo('/play')}
+        onClick={() => redirectTo('/')}
         type="button"
         data-testid="btn-play-again"
       >

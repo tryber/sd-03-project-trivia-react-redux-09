@@ -24,7 +24,7 @@ const Ranking = ({ history }) => {
   const ranking = JSON.parse(localStorage.getItem('ranking'));
   return (
     <div>
-      <h1>Ranking</h1>
+      <h1 data-testid="ranking-title">Ranking</h1>
       <table>
         <tbody>
           {sortByScore(ranking).map((score, index) => {
@@ -44,7 +44,7 @@ const Ranking = ({ history }) => {
           })}
         </tbody>
       </table>
-      <button type="button" onClick={() => redirectToHome()}>Início</button>
+      <button data-testid="btn-go-home" type="button" onClick={() => redirectToHome()}>Início</button>
     </div>
   );
 };

@@ -27,7 +27,6 @@ class Play extends React.Component {
 
   componentDidMount() {
     this.startGame();
-    setInterval(() => this.ticker(), 1000);
   }
 
   componentWillUnmount() {
@@ -51,12 +50,6 @@ class Play extends React.Component {
       }
     }, 1000);
     return timer;
-  }
-
-  ticker() {
-    this.setState((prevState) => ({
-      counter: prevState.counter - 1,
-    }));
   }
 
   startGame() {
@@ -121,7 +114,6 @@ class Play extends React.Component {
   render() {
     const { props: { questions }, state: { counter, turn, answered } } = this;
     if (questions.length <= 0) return <h1>Loading</h1>;
-    /*     this.countDownTimer(); */
     return (
       <center>
         <div className="container-play">

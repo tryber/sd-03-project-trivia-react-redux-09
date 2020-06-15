@@ -46,3 +46,7 @@ export const computeScore = (player, score, picture) => ({
 export const CLEAR_QUESTIONS = 'CLEAR_QUESTIONS';
 
 export const clearQuestions = () => ({ type: CLEAR_QUESTIONS });
+
+export const SET_TIME = 'SET_TIME';
+
+export const setTime = (time) => ({ type: SET_TIME, payload: time });

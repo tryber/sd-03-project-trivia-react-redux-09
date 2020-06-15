@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { getQuestionsAction, computeScore, clearQuestions } from '../redux/actions/index';
+import {
+  getQuestionsAction, computeScore, clearQuestions, setTime,
+} from '../redux/actions/index';
 import tokenApi from '../service/fetchToken';
 import Answers from './Answers';
 import Question from './Question';
@@ -16,16 +18,19 @@ class Play extends React.Component {
     this.state = {
       answered: false,
       turn: 0,
-      counter: 30,
     };
     this.nextTurn = this.nextTurn.bind(this);
-    this.startGame = this.startGame.bind(this);
     this.hitAnswer = this.hitAnswer.bind(this);
     this.endgame = this.endgame.bind(this);
   }
 
   componentDidMount() {
-    this.startGame();
+    const { fetchQuestions } = this.props;
+    tokenApi()
+      .then(({ token }) => {
+        localStorage.setItem('token', token);
+      });
+    fetchQuestions(localStorage.getItem('token'));
   }
 
   componentWillUnmount() {
@@ -33,47 +38,15 @@ class Play extends React.Component {
     cleanQuestions();
   }
 
-  countDownTimer() {
-    const timer = () => setInterval(() => {
-      const { counter, answered, turn } = this.state;
-      switch (true) {
-        case counter > 0 && !answered:
-          return this.setState((prevState) => ({ counter: prevState.counter - 1 }));
-        case !answered && counter === 0:
-          this.setState({ answered: true });
-          this.hitAnswer('wrong');
-          return clearInterval(timer);
-        case answered:
-          console.log(counter, turn);
-          return clearInterval(timer);
-        default:
-          console.log(this.state);
-          return clearInterval(timer);
-      }
-    }, 1000);
-    console.log('djfhsjkhfalsd');
-    return timer;
-  }
-
-  startGame() {
-    const { fetchQuestions } = this.props;
-    tokenApi()
-      .then(({ token }) => {
-        localStorage.setItem('token', token);
-      });
-    fetchQuestions(localStorage.getItem('token'))
-      .then(this.countDownTimer());
-  }
 
   nextTurn() {
-    const { props: { questions }, state: { turn } } = this;
+    const { props: { questions, setTimer }, state: { turn } } = this;
     if (turn === questions.length - 1) return this.endgame();
     this.setState((prevState) => ({
       turn: prevState.turn + 1,
       answered: false,
-      counter: 30,
     }));
-    return this.countDownTimer();
+    return setTimer(30);
   }
 
   endgame() {
@@ -93,7 +66,7 @@ class Play extends React.Component {
   hitAnswer(answer) {
     this.setState({ answered: true });
     if (answer !== 'correct') return false;
-    const { state: { counter, turn }, props: { questions } } = this;
+    const { state: { turn }, props: { questions, timer } } = this;
     const difficulty = (dif) => {
       switch (true) {
         case dif === 'hard':
@@ -107,7 +80,7 @@ class Play extends React.Component {
       }
     };
     const questionLevel = questions[turn].difficulty;
-    const points = 10 + (counter * difficulty(questionLevel));
+    const points = 10 + (timer * difficulty(questionLevel));
     const { player } = JSON.parse(localStorage.getItem('state'));
     player.assertions = Number(player.assertions) + 1;
     player.score += points;
@@ -117,7 +90,7 @@ class Play extends React.Component {
   render() {
     const { props: { questions }, state: { counter, turn, answered } } = this;
     if (questions.length <= 0) return <h1>Loading</h1>;
-    return (
+    return questions.length > 0 && (
       <center>
         <div className="container-play">
           <PlayerHeader />
@@ -131,7 +104,12 @@ class Play extends React.Component {
               answered={answered}
             />
           </section>
-          <Footer answered={answered} nextTurn={this.nextTurn} counter={counter} />
+          <Footer
+            answered={answered}
+            nextTurn={this.nextTurn}
+            hitAnswer={this.hitAnswer}
+            counter={counter}
+          />
         </div>
       </center>
     );
@@ -141,12 +119,14 @@ class Play extends React.Component {
 const mapStateToProps = (state) => ({
   questions: state.questions.questions,
   isFetching: state.questions.isFetching,
+  timer: state.timer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   computeRank: (player, points, picture) => dispatch(computeScore(player, points, picture)),
   fetchQuestions: (token) => dispatch(getQuestionsAction(token)),
   cleanQuestions: () => dispatch(clearQuestions()),
+  setTimer: (time) => dispatch(setTime(time)),
 });
 
 
@@ -158,4 +138,6 @@ Play.propTypes = {
   fetchQuestions: propTypes.func.isRequired,
   history: propTypes.shape({ push: propTypes.func.isRequired }).isRequired,
   cleanQuestions: propTypes.func.isRequired,
+  setTimer: propTypes.func.isRequired,
+  timer: propTypes.number.isRequired,
 };

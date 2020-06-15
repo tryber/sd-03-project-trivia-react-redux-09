@@ -18,8 +18,8 @@ const sortByScore = (ranking) => ranking.sort((a, b) => {
 
 const renderRanking = (ranking) => (
   <tbody>
-    {sortByScore(ranking).map((score, index) => {
-      const hash = CryptoJS.MD5(score.picture);
+    {sortByScore(ranking).map((player, index) => {
+      const hash = CryptoJS.MD5(player.picture);
       return (
         <tr key={Math.random()}>
           <td>
@@ -28,8 +28,8 @@ const renderRanking = (ranking) => (
               alt="gravatar"
             />
           </td>
-          <td data-testid={`player-name-${index}`}>{score.name}</td>
-          <td data-testid={`player-score-${index}`}>{score.score}</td>
+          <td data-testid={`player-name-${index}`}>{player.name}</td>
+          <td data-testid={`player-score-${index}`}>{player.score}</td>
         </tr>
       );
     })}

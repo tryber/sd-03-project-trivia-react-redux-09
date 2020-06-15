@@ -16,6 +16,26 @@ const sortByScore = (ranking) => ranking.sort((a, b) => {
   }
 });
 
+const renderRanking = (ranking) => (
+  <tbody>
+    {sortByScore(ranking).map((score, index) => {
+      const hash = CryptoJS.MD5(score.picture);
+      return (
+        <tr key={Math.random()}>
+          <td>
+            <img
+              src={`https://www.gravatar.com/avatar/${hash}`}
+              alt="gravatar"
+            />
+          </td>
+          <td data-testid={`player-name-${index}`}>{score.name}</td>
+          <td data-testid={`player-score-${index}`}>{score.score}</td>
+        </tr>
+      );
+    })}
+  </tbody>;
+)
+
 const Ranking = ({ history }) => {
   const redirectToHome = () => {
     refreshScoreToPlay();
@@ -25,26 +45,14 @@ const Ranking = ({ history }) => {
   return (
     <div>
       <h1 data-testid="ranking-title">Ranking</h1>
-      <table>
-        <tbody>
-          {sortByScore(ranking).map((score, index) => {
-            const hash = CryptoJS.MD5(score.picture);
-            return (
-              <tr key={Math.random()}>
-                <td>
-                  <img
-                    src={`https://www.gravatar.com/avatar/${hash}`}
-                    alt="gravatar"
-                  />
-                </td>
-                <td data-testid={`player-name-${index}`}>{score.name}</td>
-                <td data-testid={`player-score-${index}`}>{score.score}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <button data-testid="btn-go-home" type="button" onClick={() => redirectToHome()}>Início</button>
+  <table>{renderRanking(ranking)}</table>
+      <button
+        data-testid="btn-go-home"
+        type="button"
+        onClick={() => redirectToHome()}
+      >
+        Início
+      </button>
     </div>
   );
 };

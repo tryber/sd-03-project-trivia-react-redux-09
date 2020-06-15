@@ -1,11 +1,11 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import PlayerHeader from './PlayerHeader';
-
+import './style-feedback.css';
 
 const feedbackText = (assertions) => {
   const text = assertions < 3 ? 'Podia ser melhor...' : 'Mandou bem!';
-  return <p data-testid="feedback-text">{text}</p>;
+  return <p className="text-body" data-testid="feedback-text">{text}</p>;
 };
 
 const FeedBack = (props) => {
@@ -14,27 +14,37 @@ const FeedBack = (props) => {
   const redirectTo = (path) => props.history.push(path);
 
   return (
-    <div>
-      <h1>FeedBack</h1>
-      <PlayerHeader />
-      {feedbackText(assertions)}
-      <p data-testid="feedback-total-score">{score}</p>
-      <p data-testid="feedback-total-question">{assertions}</p>
-      <button
-        onClick={() => redirectTo('/')}
-        type="button"
-        data-testid="btn-play-again"
-      >
-        Jogar Novamente
-      </button>
-      <button
-        onClick={() => redirectTo('/ranking')}
-        type="button"
-        data-testid="btn-ranking"
-      >
-        Ver Ranking
-      </button>
-    </div>
+    <center>
+      <div className="container-feedback">
+        <section className="header-feed">
+          <PlayerHeader />
+        </section>
+        <section className="body-feed">
+          {feedbackText(assertions)}
+          <p className="subtexto">
+            Você acertou <span data-testid="feedback-total-question">{assertions}</span> questões. <br />
+            Um total de <span data-testid="feedback-total-score">{score}</span> pontos.
+          </p>
+        </section>
+        <button
+          onClick={() => redirectTo('/')}
+          type="button"
+          data-testid="btn-play-again"
+          className="btn-voltar"
+        >
+          Jogar Novamente
+        </button>
+        <button
+          onClick={() => redirectTo('/ranking')}
+          type="button"
+          data-testid="btn-ranking"
+          className="btn-ranking"
+        >
+          Ver Ranking
+        </button>
+
+      </div>
+    </center>
   );
 };
 

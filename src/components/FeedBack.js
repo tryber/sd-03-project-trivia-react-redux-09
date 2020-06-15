@@ -2,12 +2,6 @@ import React from 'react';
 import propTypes from 'prop-types';
 import PlayerHeader from './PlayerHeader';
 
-export const refreshScoreToPlay = () => {
-  const { player } = JSON.parse(localStorage.state);
-  player.score = 0;
-  player.assertions = 0;
-  localStorage.state = JSON.stringify({ player });
-};
 
 const feedbackText = (assertions) => {
   const text = assertions < 3 ? 'Podia ser melhor...' : 'Mandou bem!';
@@ -17,15 +11,13 @@ const feedbackText = (assertions) => {
 const FeedBack = (props) => {
   const { player: { assertions, score } } = JSON.parse(localStorage.getItem('state'));
   feedbackText(assertions);
-  const redirectTo = (path) => {
-    if (path === '/play') refreshScoreToPlay();
-    props.history.push(path);
-  };
+  const redirectTo = (path) => props.history.push(path);
+
   return (
     <div>
       <h1>FeedBack</h1>
       <PlayerHeader />
-      {feedbackText()}
+      {feedbackText(assertions)}
       <p data-testid="feedback-total-score">{score}</p>
       <p data-testid="feedback-total-question">{assertions}</p>
       <button

@@ -126,7 +126,6 @@ class Play extends React.Component {
               hitAnswer={this.hitAnswer}
               turn={turn}
               answered={answered}
-              countDownTimer={this.countDownTimer}
             />
           </section>
           <Footer answered={answered} nextTurn={this.nextTurn} counter={counter} />

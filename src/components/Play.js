@@ -45,7 +45,6 @@ class Play extends React.Component {
           this.hitAnswer('wrong');
           return clearInterval(timer);
         default:
-          console.log(this.state);
           return clearInterval(timer);
       }
     }, 1000);

@@ -6,7 +6,7 @@ const PlayerHeader = () => {
   const { player: { name, score, gravatarEmail } } = JSON.parse(localStorage.getItem('state'));
   const hash = CryptoJS.MD5(gravatarEmail);
   return (
-    <section className="header">
+    <header className="header">
       <img
         src={`https://www.gravatar.com/avatar/${hash}`}
         default="https://www.gravatar.com/avatar/2d3bf5b67282f5f466e503d7022abcf3"
@@ -21,7 +21,7 @@ const PlayerHeader = () => {
         Pontos:
         <span data-testid="header-score">{score}</span>
       </span>
-    </section>
+    </header>
   );
 };
 

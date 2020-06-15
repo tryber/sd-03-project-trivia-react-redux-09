@@ -6,9 +6,11 @@ const Questions = ({ question, category }) => (
   <div className="question">
     <p>
       Categoria:
-      <span data-testid="question-category" value={category} />
+      <span data-testid="question-category" value={category}>
+        {category}
+      </span>
     </p>
-    <p className="text-question" data-testid="question-text">{question}</p>
+    <p className="question-text" data-testid="question-text">{question}</p>
   </div>
 );
 

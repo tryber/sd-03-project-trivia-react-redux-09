@@ -28,3 +28,8 @@
 .btn-inicio:hover {
   background-color: #106177;
 }
+
+td {
+  border: 1px solid rgb(143, 197, 233);
+  padding: 15px 50px;
+}

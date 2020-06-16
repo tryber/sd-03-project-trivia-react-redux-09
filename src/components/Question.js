@@ -8,7 +8,7 @@ const Questions = ({ question, category }) => (
       Categoria:
       <span data-testid="question-category" value={category}>
         {category}
-      </span>
+      </span> <br />
     </p>
     <p className="text-question" data-testid="question-text">{question}</p>
   </div>

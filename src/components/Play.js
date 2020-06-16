@@ -29,8 +29,9 @@ class Play extends React.Component {
     tokenApi()
       .then(({ token }) => {
         localStorage.setItem('token', token);
+        fetchQuestions(localStorage.getItem('token'))
+          .then(this.countDownTimer());
       });
-    fetchQuestions(localStorage.getItem('token'));
   }
 
   componentWillUnmount() {

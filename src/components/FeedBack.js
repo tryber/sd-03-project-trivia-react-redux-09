@@ -15,9 +15,7 @@ const FeedBack = (props) => {
   return (
     <center>
       <div className="container-feedback">
-        <section className="header-feed">
-          <PlayerHeader />
-        </section>
+        <section className="header-feed"> <PlayerHeader /> </section>
         <section className="body-feed">
           {feedbackText(assertions)}
           <p className="subtexto">

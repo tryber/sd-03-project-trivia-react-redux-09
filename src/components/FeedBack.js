@@ -13,6 +13,7 @@ const FeedBack = (props) => {
   feedbackText(assertions);
   const redirectTo = (path) => props.history.push(path);
   return (
+<<<<<<< HEAD
     <center>
       <div className="container-feedback">
         <section className="header-feed">

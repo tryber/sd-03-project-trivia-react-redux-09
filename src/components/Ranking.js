@@ -17,6 +17,7 @@ const sortByScore = (ranking) => ranking.sort((a, b) => {
 });
 
 const renderRanking = (ranking) => (
+<<<<<<< HEAD
   <section className="container-ranking">
     <tbody>
       {sortByScore(ranking).map((player, index) => {

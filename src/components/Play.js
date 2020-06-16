@@ -19,14 +19,20 @@ class Play extends React.Component {
       counter: 30,
     };
     this.nextTurn = this.nextTurn.bind(this);
-    this.startGame = this.startGame.bind(this);
+    /* this.startGame = this.startGame.bind(this); */
     this.hitAnswer = this.hitAnswer.bind(this);
     this.countDownTimer = this.countDownTimer.bind(this);
     this.endgame = this.endgame.bind(this);
   }
 
   componentDidMount() {
-    this.startGame();
+    const { fetchQuestions } = this.props;
+    tokenApi()
+      .then(({ token }) => {
+        localStorage.setItem('token', token);
+        fetchQuestions(localStorage.getItem('token'))
+          .then(this.countDownTimer());
+      });
   }
 
   componentWillUnmount() {
@@ -45,21 +51,10 @@ class Play extends React.Component {
           this.hitAnswer('wrong');
           return clearInterval(timer);
         default:
-          console.log(this.state);
           return clearInterval(timer);
       }
     }, 1000);
     return timer;
-  }
-
-  startGame() {
-    const { fetchQuestions } = this.props;
-    tokenApi()
-      .then(({ token }) => {
-        localStorage.setItem('token', token);
-      });
-    fetchQuestions(localStorage.getItem('token'))
-      .then(this.countDownTimer());
   }
 
   nextTurn() {
@@ -80,7 +75,7 @@ class Play extends React.Component {
     computeRank(name, score, gravatarEmail);
     const newRanking = { name, score, gravatarEmail };
     const ranking = JSON.parse(localStorage.getItem('ranking'));
-    if (ranking)ranking.push(newRanking);
+    if (ranking) ranking.push(newRanking);
     history.push('/feedback');
     return ranking
       ? localStorage.setItem('ranking', JSON.stringify(ranking))
@@ -117,7 +112,9 @@ class Play extends React.Component {
     return (
       <center>
         <div className="container-play">
-          <PlayerHeader />
+          <header>
+            <PlayerHeader />
+          </header>
           <section className="body">
             <Question question={questions[turn].question} category={questions[turn].category} />
             <Answers
